@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEC Business Growth Services - Company Presentation</title>
+    <link href="https://cdn.jsdelivr.net/gh/nicokant/FiraGO@master/FiraGO.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --dark-blue: #153749;
+            --teal: #226263;
+            --green: #049978;
+            --orange: #F05324;
+            --yellow: #F0B91C;
+        }
+
+        body {
+            font-family: 'FiraGO', sans-serif;
+            overflow: hidden;
+            color: white;
+        }
+
+        img {
+            color: inherit;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 60px;
+            position: relative;
+            background: linear-gradient(135deg, #0d2436 0%, #153749 30%, #1a4a5e 60%, #153749 85%, #0d2436 100%);
+            overflow: hidden;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(21, 55, 73, 0.4) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(240, 83, 36, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(26, 74, 94, 0.3) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Animated background elements */
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .bg-shape-1 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #1a4a5e, #153749);
+            top: -100px;
+            right: -100px;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .bg-shape-2 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #1e5a70, #153749);
+            bottom: -80px;
+            left: -80px;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        .bg-shape-3 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #153749, #1a4a5e);
+            top: 50%;
+            left: 10%;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, -20px) rotate(5deg); }
+            50% { transform: translate(0, -40px) rotate(0deg); }
+            75% { transform: translate(-20px, -20px) rotate(-5deg); }
+        }
+
+        .slide.active { display: flex; }
+
+        /* Grid overlay */
+        .grid-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+
+        .slide-inner {
+            width: 100%;
+            max-width: 1400px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo img {
+            height: 100px;
+        }
+
+        /* Fixed logo - stays in same position on all slides */
+        .fixed-logo {
+            position: fixed;
+            top: 30px;
+            right: 50px;
+            z-index: 1000;
+        }
+
+        .fixed-logo img {
+            height: 240px;
+        }
+
+        /* Hide individual slide logos */
+        .slide-header .logo {
+            display: none;
+        }
+
+        .slide-title-area h3 {
+            font-size: 14px;
+            color: var(--orange);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+
+        .slide-title-area h1 {
+            font-size: 52px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+        }
+
+        .highlight { color: var(--orange); }
+        .green { color: var(--green); }
+        .yellow { color: var(--yellow); }
+
+        /* Content */
+        .slide-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+        }
+
+        .text-block {
+            flex: 0 0 500px;
+        }
+
+        .visual-block {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Text styling */
+        .intro-text {
+            font-size: 20px;
+            line-height: 1.9;
+            color: rgba(255,255,255,0.85);
+        }
+
+        .intro-text strong {
+            color: white;
+        }
+
+        /* Glass card */
+        .glass-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .glass-card-light {
+            background: rgba(255,255,255,0.95);
+            border: none;
+            color: var(--dark-blue);
+        }
+
+        .stat-number {
+            font-size: 56px;
+            font-weight: 800;
+            color: var(--orange);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: rgba(255,255,255,0.7);
+            margin-top: 5px;
+        }
+
+        .glass-card-light .stat-label {
+            color: var(--teal);
+        }
+
+        /* Feature list */
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 22px;
+            padding: 20px 25px;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-list li:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateX(10px);
+        }
+
+        .feature-icon {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .feature-icon svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .feature-text {
+            font-size: 18px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 3px;
+        }
+
+        /* Stats grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* Services grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .service-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 35px 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-8px);
+            border-color: var(--green);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .service-icon svg {
+            width: 50px;
+            height: 50px;
+        }
+
+        .service-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .service-desc {
+            font-size: 14px;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.6;
+        }
+
+        /* Partners */
+        .partners-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .partner-badge {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 20px 30px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .partner-badge:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Website footer */
+        .website {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 2px;
+            z-index: 10;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-dot:hover { background: rgba(255,255,255,0.6); }
+        .nav-dot.active {
+            background: var(--orange);
+            transform: scale(1.3);
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 50%;
+            right: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: var(--orange);
+            border-color: var(--orange);
+        }
+
+        /* Contact slide */
+        .contact-center {
+            text-align: center;
+        }
+
+        .contact-logo img {
+            height: 140px;
+            margin-bottom: 30px;
+        }
+
+        .contact-name {
+            font-size: 48px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .contact-company {
+            font-size: 26px;
+            color: var(--orange);
+            margin-bottom: 35px;
+        }
+
+        .contact-info {
+            font-size: 20px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 12px;
+        }
+
+        .contact-tagline {
+            font-size: 28px;
+            color: var(--green);
+            font-style: italic;
+            margin-top: 35px;
+        }
+
+        /* Timeline */
+        .timeline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            text-align: center;
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: var(--orange);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-line {
+            width: 100px;
+            height: 3px;
+            background: rgba(255,255,255,0.2);
+            margin-top: -52px;
+        }
+
+        .timeline-year {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--orange);
+        }
+
+        .timeline-text {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 5px;
+        }
+
+        /* Values grid */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .value-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: scale(1.05);
+        }
+
+        .value-icon {
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .value-icon svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .value-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .value-desc {
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.5;
+        }
+
+        /* Regions */
+        .regions-visual {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .region-tag {
+            position: absolute;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            padding: 10px 20px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fixed Logo - appears on all slides in same position -->
+    <div class="fixed-logo">
+        <img src="gec-logo-new.png" alt="GEC">
+    </div>
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide active" id="slide1">
+        <div class="bg-shape bg-shape-1"></div>
+        <div class="bg-shape bg-shape-2"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner">
+            <div class="slide-content" style="flex-direction: column; text-align: center;">
+                                <h1 style="font-size: 52px; color: white; margin-bottom: 15px;">Business Growth Services</h1>
+                <p style="font-size: 28px; color: var(--orange); font-weight: 500; margin-bottom: 40px;">Your Business Assistant</p>
+                <p style="font-size: 20px; color: rgba(255,255,255,0.7); max-width: 700px; line-height: 1.8;">Designing and facilitating structured growth through system thinking, co-creation, and rigorous implementation.</p>
+                <p class="contact-tagline" style="margin-top: 50px;">"From Discovery to Lasting Impact"</p>
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+    <!-- SLIDE 2: About -->
+    <div class="slide" id="slide2">
+        <div class="bg-shape bg-shape-1"></div>
+        <div class="bg-shape bg-shape-3"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner">
+            <div class="slide-header">
+                <div class="slide-title-area">
+                    <h3>About Us</h3>
+                    <h1>Who <span class="highlight">We Are</span></h1>
+                </div>
+                <div class="logo"><img src="gec-logo-new.png" alt="GEC"></div>
+            </div>
+            <div class="slide-content">
+                <div class="text-block">
+                    <p class="intro-text">We work alongside organizations to <strong>address complex challenges</strong>, unlock potential, and create lasting impact.</p>
+                    <p class="intro-text" style="margin-top: 25px;">Each project reflects a collaborative process—<strong>facilitating change</strong>, supporting growth, and delivering solutions that endure.</p>
+                    <div style="margin-top: 40px;">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-year">2010</div>
+                                <div class="timeline-text">Founded</div>
+                            </div>
+                            <div class="timeline-line"></div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot" style="background: var(--green);"></div>
+                                <div class="timeline-year" style="color: var(--green);">15+</div>
+                                <div class="timeline-text">Years of Experience</div>
+                            </div>
+                            <div class="timeline-line"></div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot" style="background: var(--yellow);"></div>
+                                <div class="timeline-year" style="color: var(--yellow);">4</div>
+                                <div class="timeline-text">Regions</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="visual-block">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">15+</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" style="color: var(--green);">4</div>
+                            <div class="stat-label">Regions Active</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" style="color: var(--yellow);">100+</div>
+                            <div class="stat-label">Projects Delivered</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" style="color: var(--teal);">2</div>
+                            <div class="stat-label">Languages</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+    <!-- SLIDE 3: Geographic Reach -->
+    <div class="slide" id="slide3">
+        <div class="bg-shape bg-shape-2"></div>
+        <div class="bg-shape bg-shape-3"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner">
+            <div class="slide-header">
+                <div class="slide-title-area">
+                    <h3>Global Presence</h3>
+                    <h1>Our <span class="green">Reach</span></h1>
+                </div>
+                <div class="logo"><img src="gec-logo-new.png" alt="GEC"></div>
+            </div>
+            <div class="slide-content">
+                <div class="text-block">
+                    <p class="intro-text">Delivering systemic solutions to diverse organizations across <strong>multiple sectors</strong> and regions for over a decade.</p>
+                    <ul class="feature-list" style="margin-top: 30px;">
+                        <li>
+                            <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="var(--green)"/></svg></span>
+                            <div>
+                                <span class="feature-text">Caucasus</span>
+                                <div class="feature-desc">Georgia, Armenia, Azerbaijan</div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="var(--orange)"/></svg></span>
+                            <div>
+                                <span class="feature-text">Central Asia</span>
+                                <div class="feature-desc">Kazakhstan, Uzbekistan, and more</div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="var(--teal)"/></svg></span>
+                            <div>
+                                <span class="feature-text">Europe & Middle East</span>
+                                <div class="feature-desc">Expanding partnerships across regions</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="visual-block">
+                    <svg viewBox="0 0 400 300" fill="none" style="width: 100%; max-width: 500px;">
+                        <!-- Simplified world map representation -->
+                        <ellipse cx="200" cy="150" rx="180" ry="120" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+                        <ellipse cx="200" cy="150" rx="140" ry="90" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                        <ellipse cx="200" cy="150" rx="100" ry="60" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+
+                        <!-- Region markers -->
+                        <!-- Caucasus -->
+                        <g class="pulse">
+                            <circle cx="230" cy="100" r="25" fill="rgba(4,153,120,0.3)"/>
+                            <circle cx="230" cy="100" r="12" fill="var(--green)"/>
+                            <text x="230" y="140" text-anchor="middle" fill="white" font-size="11" font-weight="500">Caucasus</text>
+                        </g>
+
+                        <!-- Central Asia -->
+                        <g class="pulse" style="animation-delay: 0.3s;">
+                            <circle cx="290" cy="110" r="22" fill="rgba(240,83,36,0.3)"/>
+                            <circle cx="290" cy="110" r="10" fill="var(--orange)"/>
+                            <text x="290" y="145" text-anchor="middle" fill="white" font-size="11" font-weight="500">Central Asia</text>
+                        </g>
+
+                        <!-- Europe -->
+                        <g class="pulse" style="animation-delay: 0.6s;">
+                            <circle cx="150" cy="90" r="20" fill="rgba(34,98,99,0.3)"/>
+                            <circle cx="150" cy="90" r="9" fill="var(--teal)"/>
+                            <text x="150" y="125" text-anchor="middle" fill="white" font-size="11" font-weight="500">Europe</text>
+                        </g>
+
+                        <!-- Middle East -->
+                        <g class="pulse" style="animation-delay: 0.9s;">
+                            <circle cx="240" cy="160" r="18" fill="rgba(240,185,28,0.3)"/>
+                            <circle cx="240" cy="160" r="8" fill="var(--yellow)"/>
+                            <text x="240" y="190" text-anchor="middle" fill="white" font-size="11" font-weight="500">Middle East</text>
+                        </g>
+
+                        <!-- Connection lines -->
+                        <g stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="4 4">
+                            <line x1="230" y1="100" x2="290" y2="110"/>
+                            <line x1="230" y1="100" x2="150" y2="90"/>
+                            <line x1="230" y1="100" x2="240" y2="160"/>
+                            <line x1="290" y1="110" x2="240" y2="160"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+    <!-- SLIDE 4: Services -->
+    <div class="slide" id="slide4">
+        <div class="bg-shape bg-shape-1"></div>
+        <div class="bg-shape bg-shape-2"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner">
+            <div class="slide-header">
+                <div class="slide-title-area">
+                    <h3>What We Do</h3>
+                    <h1>Our <span class="highlight">Services</span></h1>
+                </div>
+                <div class="logo"><img src="gec-logo-new.png" alt="GEC"></div>
+            </div>
+            <div class="slide-content" style="flex-direction: column;">
+                <p class="intro-text" style="text-align: center; max-width: 800px; margin-bottom: 40px;">We offer a wide range of services designed to help businesses achieve their goals and overcome their challenges.</p>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z" fill="var(--orange)"/></svg>
+                        </div>
+                        <div class="service-title">Business Growth Strategy</div>
+                        <div class="service-desc">Turn potential and ambitions into clear, actionable strategic plans</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" fill="var(--green)"/></svg>
+                        </div>
+                        <div class="service-title">Business Process Management</div>
+                        <div class="service-desc">Create clear, consistent ways of working that reduce friction</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L10 14v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="var(--teal)"/></svg>
+                        </div>
+                        <div class="service-title">Export Development</div>
+                        <div class="service-desc">Step confidently into international markets with tailored strategies</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" fill="var(--teal)"/></svg>
+                        </div>
+                        <div class="service-title">Performance Management</div>
+                        <div class="service-desc">Connect company goals to everyday work with measurable outcomes</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z" fill="var(--teal)"/></svg>
+                        </div>
+                        <div class="service-title">Digital Transformation</div>
+                        <div class="service-desc">Modernize your business with the right technology strategy</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z" fill="var(--yellow)"/></svg>
+                        </div>
+                        <div class="service-title">Planning & Funding Support</div>
+                        <div class="service-desc">Build investment-ready models and secure the capital you need</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+    <!-- SLIDE 5: Methodology -->
+    <div class="slide" id="slide5">
+        <div class="bg-shape bg-shape-1"></div>
+        <div class="bg-shape bg-shape-3"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner">
+            <div class="slide-header">
+                <div class="slide-title-area">
+                    <h3>How We Work</h3>
+                    <h1>Our <span class="green">Approach</span></h1>
+                </div>
+                <div class="logo"><img src="gec-logo-new.png" alt="GEC"></div>
+            </div>
+            <div class="slide-content">
+                <div class="text-block" style="flex: 0 0 550px;">
+                    <ul class="feature-list">
+                        <li>
+                            <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" fill="var(--green)"/><path d="M12 2v4m0 12v4m10-10h-4M6 12H2m15.07-7.07l-2.83 2.83M9.76 14.24l-2.83 2.83m0-10.14l2.83 2.83m4.48 4.48l2.83 2.83" stroke="var(--green)" stroke-width="2"/></svg></span>
+                            <div>
+                                <span class="feature-text">Discovery</span>
+                                <div class="feature-desc">Deep dive into your organization's challenges and opportunities</div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2 2H5V5h14v14zm0-16H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" fill="var(--orange)"/></svg></span>
+                            <div>
+                                <span class="feature-text">Analysis & Strategy</span>
+                                <div class="feature-desc">Data-driven insights to craft tailored solutions</div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="var(--teal)"/></svg></span>
+                            <div>
+                                <span class="feature-text">Implementation</span>
+                                <div class="feature-desc">Hands-on execution with measurable milestones</div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" fill="var(--teal)"/></svg></span>
+                            <div>
+                                <span class="feature-text">Lasting Impact</span>
+                                <div class="feature-desc">Sustainable results that endure beyond our engagement</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="visual-block">
+                    <svg viewBox="0 0 350 350" fill="none" style="width: 100%; max-width: 400px;">
+                        <!-- Circular process -->
+                        <circle cx="175" cy="175" r="140" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="3"/>
+                        <circle cx="175" cy="175" r="100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2"/>
+
+                        <!-- Process stages -->
+                        <g transform="translate(175, 35)">
+                            <circle cx="0" cy="0" r="35" fill="var(--green)"/>
+                            <text x="0" y="5" text-anchor="middle" fill="white" font-size="10" font-weight="600">DISCOVER</text>
+                        </g>
+
+                        <g transform="translate(315, 175)">
+                            <circle cx="0" cy="0" r="35" fill="var(--orange)"/>
+                            <text x="0" y="5" text-anchor="middle" fill="white" font-size="10" font-weight="600">ANALYZE</text>
+                        </g>
+
+                        <g transform="translate(175, 315)">
+                            <circle cx="0" cy="0" r="35" fill="var(--teal)"/>
+                            <text x="0" y="5" text-anchor="middle" fill="white" font-size="10" font-weight="600">IMPLEMENT</text>
+                        </g>
+
+                        <g transform="translate(35, 175)">
+                            <circle cx="0" cy="0" r="35" fill="var(--teal)"/>
+                            <text x="0" y="5" text-anchor="middle" fill="white" font-size="10" font-weight="600">SUSTAIN</text>
+                        </g>
+
+                        <!-- Arrows -->
+                        <g fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2">
+                            <path d="M210 50 Q280 80 295 140" marker-end="url(#arrow)"/>
+                            <path d="M295 210 Q280 270 210 300" marker-end="url(#arrow)"/>
+                            <path d="M140 300 Q70 270 55 210" marker-end="url(#arrow)"/>
+                            <path d="M55 140 Q70 80 140 50" marker-end="url(#arrow)"/>
+                        </g>
+
+                        <!-- Center -->
+                        <circle cx="175" cy="175" r="45" fill="rgba(255,255,255,0.1)"/>
+                        <text x="175" y="170" text-anchor="middle" fill="white" font-size="12" font-weight="600">YOUR</text>
+                        <text x="175" y="188" text-anchor="middle" fill="var(--orange)" font-size="12" font-weight="600">SUCCESS</text>
+
+                        <defs>
+                            <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <path d="M0,0 L0,6 L9,3 z" fill="rgba(255,255,255,0.3)"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+    <!-- SLIDE 6: Partnerships -->
+    <div class="slide" id="slide6">
+        <div class="bg-shape bg-shape-2"></div>
+        <div class="bg-shape bg-shape-3"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner">
+            <div class="slide-header">
+                <div class="slide-title-area">
+                    <h3>Trusted By</h3>
+                    <h1>Partnerships & <span class="yellow">Accreditations</span></h1>
+                </div>
+                <div class="logo"><img src="gec-logo-new.png" alt="GEC"></div>
+            </div>
+            <div class="slide-content" style="flex-direction: column;">
+                <p class="intro-text" style="text-align: center; max-width: 800px; margin-bottom: 50px;">We are proud to partner with leading organizations committed to sustainable business development.</p>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" width="36" height="36"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L10 14v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="var(--orange)"/></svg></div>
+                        <div class="value-title">EBRD ASB</div>
+                        <div class="value-desc">Accredited partner of EBRD's Advice for Small Businesses program</div>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" width="36" height="36"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" fill="var(--green)"/></svg></div>
+                        <div class="value-title">WEPs Signatory</div>
+                        <div class="value-desc">Committed to Women's Empowerment Principles</div>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" width="36" height="36"><path d="M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9zM5.6 10.25c0 1.38 1.12 2.5 2.5 2.5.53 0 1.01-.16 1.42-.44l-.02.19c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5l-.02-.19c.4.28.89.44 1.42.44 1.38 0 2.5-1.12 2.5-2.5 0-1-.59-1.85-1.43-2.25.84-.4 1.43-1.25 1.43-2.25 0-1.38-1.12-2.5-2.5-2.5-.53 0-1.01.16-1.42.44l.02-.19C14.5 2.12 13.38 1 12 1S9.5 2.12 9.5 3.5l.02.19c-.4-.28-.89-.44-1.42-.44-1.38 0-2.5 1.12-2.5 2.5 0 1 .59 1.85 1.43 2.25-.84.4-1.43 1.25-1.43 2.25zM12 5.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5S9.5 9.38 9.5 8s1.12-2.5 2.5-2.5zM3 13c0 4.97 4.03 9 9 9 0-4.97-4.03-9-9-9z" fill="var(--teal)"/></svg></div>
+                        <div class="value-title">ISD Co-Founder</div>
+                        <div class="value-desc">Georgia's Institute of Sustainable Development</div>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" width="36" height="36"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="var(--yellow)"/></svg></div>
+                        <div class="value-title">SDG Aligned</div>
+                        <div class="value-desc">Sustainability initiatives linked to UN SDGs</div>
+                    </div>
+                </div>
+                <div class="partners-row">
+                    <div class="partner-badge">European Bank for Reconstruction & Development</div>
+                    <div class="partner-badge">UN Global Compact</div>
+                    <div class="partner-badge">ISD Georgia</div>
+                </div>
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+    <!-- SLIDE 7: Values -->
+    <div class="slide" id="slide7">
+        <div class="bg-shape bg-shape-1"></div>
+        <div class="bg-shape bg-shape-2"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner">
+            <div class="slide-header">
+                <div class="slide-title-area">
+                    <h3>What Drives Us</h3>
+                    <h1>Our <span class="highlight">Values</span></h1>
+                </div>
+                <div class="logo"><img src="gec-logo-new.png" alt="GEC"></div>
+            </div>
+            <div class="slide-content" style="flex-direction: column;">
+                <div class="values-grid" style="max-width: 1100px;">
+                    <div class="value-card">
+                        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" width="36" height="36"><path d="M16.5 13c-1.2 0-3.07.34-4.5 1-1.43-.67-3.3-1-4.5-1C5.33 13 1 14.08 1 16.25V19h22v-2.75c0-2.17-4.33-3.25-6.5-3.25zm-4 4.5h-10v-1.25c0-.54 2.56-1.75 5-1.75s5 1.21 5 1.75v1.25zm9 0H14v-1.25c0-.46-.2-.86-.52-1.22.88-.3 1.96-.53 3.02-.53 2.44 0 5 1.21 5 1.75v1.25zM7.5 12c1.93 0 3.5-1.57 3.5-3.5S9.43 5 7.5 5 4 6.57 4 8.5 5.57 12 7.5 12zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 5.5c1.93 0 3.5-1.57 3.5-3.5S18.43 5 16.5 5 13 6.57 13 8.5s1.57 3.5 3.5 3.5zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z" fill="var(--orange)"/></svg></div>
+                        <div class="value-title">Collaboration</div>
+                        <div class="value-desc">Working alongside our clients as true partners</div>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" width="36" height="36"><path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7zm2.9 11.1l-.9.6V16h-4v-2.3l-.9-.6C7.8 12.2 7 10.6 7 9c0-2.8 2.2-5 5-5s5 2.2 5 5c0 1.6-.8 3.2-2.1 4.1z" fill="var(--green)"/></svg></div>
+                        <div class="value-title">Innovation</div>
+                        <div class="value-desc">Creative solutions for complex challenges</div>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" width="36" height="36"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" fill="var(--teal)"/></svg></div>
+                        <div class="value-title">Results-Driven</div>
+                        <div class="value-desc">Focused on tangible, measurable outcomes</div>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" width="36" height="36"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L10 14v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="var(--yellow)"/></svg></div>
+                        <div class="value-title">Sustainability</div>
+                        <div class="value-desc">Creating lasting impact for future generations</div>
+                    </div>
+                </div>
+                <div class="glass-card" style="margin-top: 50px; max-width: 800px; text-align: center;">
+                    <p style="font-size: 22px; color: white; line-height: 1.7;">"Each project reflects a collaborative process—facilitating change, supporting growth, and delivering <span style="color: var(--orange); font-weight: 600;">solutions that endure</span>."</p>
+                </div>
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+    <!-- SLIDE 8: Team -->
+    <div class="slide" id="slide8">
+        <div class="bg-shape bg-shape-1"></div>
+        <div class="bg-shape bg-shape-3"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner">
+            <div class="slide-header">
+                <div class="slide-title-area">
+                    <h3>Our People</h3>
+                    <h1>Meet the <span class="highlight">Team</span></h1>
+                </div>
+                <div class="logo"><img src="gec-logo-new.png" alt="GEC"></div>
+            </div>
+            <div class="slide-content" style="flex-direction: column;">
+                <p class="intro-text" style="text-align: center; max-width: 700px; margin-bottom: 50px;">The people behind GEC's success — dedicated professionals committed to driving meaningful growth for our clients.</p>
+                <div style="display: flex; justify-content: center; gap: 50px; flex-wrap: wrap;">
+                    <!-- Team Member 1: George -->
+                    <div class="team-card" style="text-align: center; background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 40px 35px; width: 280px; transition: all 0.3s ease; color: var(--orange);">
+                        <div style="width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 25px; border: 4px solid var(--orange); overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 12px;">
+                            <img src="1671652364909.jpeg" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div style="font-size: 22px; font-weight: 600; color: white; margin-bottom: 8px;">George Simongulashvili</div>
+                        <div style="font-size: 15px; color: var(--orange); font-weight: 500;">Partner</div>
+                    </div>
+                    <!-- Team Member 2: Lia -->
+                    <div class="team-card" style="text-align: center; background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 40px 35px; width: 280px; transition: all 0.3s ease; color: var(--green);">
+                        <div style="width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 25px; border: 4px solid var(--green); overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 12px;">
+                            <img src="kereselidze.jpeg" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div style="font-size: 22px; font-weight: 600; color: white; margin-bottom: 8px;">Lia Kereselidze</div>
+                        <div style="font-size: 15px; color: var(--green); font-weight: 500;">Business Development Manager</div>
+                    </div>
+                    <!-- Team Member 3: Beka -->
+                    <div class="team-card" style="text-align: center; background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 40px 35px; width: 280px; transition: all 0.3s ease; color: var(--yellow);">
+                        <div style="width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 25px; border: 4px solid var(--yellow); overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 12px;">
+                            <img src="baiashvili.jpeg" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div style="font-size: 22px; font-weight: 600; color: white; margin-bottom: 8px;">Beka Baiashvili</div>
+                        <div style="font-size: 15px; color: var(--yellow); font-weight: 500;">Strategy Service Lead</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+    <!-- SLIDE 9: Contact -->
+    <div class="slide" id="slide9">
+        <div class="bg-shape bg-shape-1"></div>
+        <div class="bg-shape bg-shape-2"></div>
+        <div class="bg-shape bg-shape-3"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner">
+            <div class="slide-content" style="flex-direction: column; text-align: center;">
+                <div class="contact-center">
+                    <div class="contact-company">GEC Business Growth Services</div>
+                    <div class="contact-info">www.gecbusiness.com</div>
+                    <div class="contact-info">Tbilisi, Georgia</div>
+                    <div style="margin-top: 40px;">
+                        <div class="partner-badge" style="display: inline-block; margin: 0 10px;">English</div>
+                        <div class="partner-badge" style="display: inline-block; margin: 0 10px;">ქართული</div>
+                    </div>
+                    <p class="contact-tagline">"From Discovery to Lasting Impact"</p>
+                </div>
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav">
+        <div class="nav-dot active" onclick="goToSlide(0)"></div>
+        <div class="nav-dot" onclick="goToSlide(1)"></div>
+        <div class="nav-dot" onclick="goToSlide(2)"></div>
+        <div class="nav-dot" onclick="goToSlide(3)"></div>
+        <div class="nav-dot" onclick="goToSlide(4)"></div>
+        <div class="nav-dot" onclick="goToSlide(5)"></div>
+        <div class="nav-dot" onclick="goToSlide(6)"></div>
+        <div class="nav-dot" onclick="goToSlide(7)"></div>
+        <div class="nav-dot" onclick="goToSlide(8)"></div>
+    </div>
+
+    <div class="controls">
+        <button class="control-btn" onclick="prevSlide()">↑</button>
+        <button class="control-btn" onclick="nextSlide()">↓</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 9;
+
+        function showSlide(n) {
+            document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-dot').forEach(d => d.classList.remove('active'));
+            document.querySelectorAll('.slide')[n].classList.add('active');
+            document.querySelectorAll('.nav-dot')[n].classList.add('active');
+        }
+
+        function nextSlide() { currentSlide = (currentSlide + 1) % totalSlides; showSlide(currentSlide); }
+        function prevSlide() { currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; showSlide(currentSlide); }
+        function goToSlide(n) { currentSlide = n; showSlide(currentSlide); }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') nextSlide();
+            else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+        });
+    </script>
+</body>
+</html>

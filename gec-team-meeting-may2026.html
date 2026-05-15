@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GEC Team Meeting — Q2 Focus · 01.05.2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Noto+Serif+Georgian:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #F7F6F1;
+      --surface:     #FFFFFF;
+      --divider:     #D9D6CE;
+      --text:        #1B1A17;
+      --text-muted:  #6E6B62;
+      --text-faint:  #A9A69E;
+
+      --blue:        #3A5880;
+      --blue-light:  #EBF0F7;
+      --green:       #3D6B4F;
+      --green-light: #EBF3EE;
+      --red:         #A83838;
+      --red-light:   #F7EEEE;
+      --amber:       #8A6618;
+      --amber-light: #F6F0E4;
+      --purple:      #4E3F80;
+      --purple-light:#EEEAF6;
+
+      --font-head: 'Crimson Pro', 'Noto Serif Georgian', Georgia, serif;
+      --font-body: 'Noto Serif Georgian', 'Crimson Pro', Georgia, serif;
+      --font-mono: 'DM Mono', 'Courier New', monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      line-height: 1.65;
+      padding: 44px 48px 36px;
+    }
+
+    /* ── PAGE HEADER ─────────────────────────────────── */
+    .page-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .page-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .page-eyebrow::before,
+    .page-eyebrow::after {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--divider);
+    }
+
+    .page-title {
+      font-family: var(--font-head);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 28px;
+      letter-spacing: 0.01em;
+      color: var(--text);
+    }
+
+    .page-sub {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-top: 5px;
+    }
+
+    /* ── UNIFIED GRID WRAPPER ────────────────────────── */
+    .grid-wrapper {
+      border: 1px solid var(--divider);
+    }
+
+    /* ── TOP BAND (2 columns) ────────────────────────── */
+    .top-band {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    /* ── BOTTOM BAND (3 columns) ─────────────────────── */
+    .bottom-band {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    /* ── SECTION ─────────────────────────────────────── */
+    .section {
+      background: var(--surface);
+      padding: 22px 24px 24px;
+      position: relative;
+    }
+
+    /* vertical dividers between siblings */
+    .top-band    .section + .section,
+    .bottom-band .section + .section {
+      border-left: 1px solid var(--divider);
+    }
+
+    .section-accent {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin-bottom: 15px;
+    }
+
+    .section-num {
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      letter-spacing: 0.05em;
+      color: #fff;
+      padding: 2px 5px;
+      border-radius: 2px;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    /* ── COLOR THEMES ────────────────────────────────── */
+    .s-blue   .section-accent { background: var(--blue); }
+    .s-blue   .section-num    { background: var(--blue); }
+    .s-blue   .section-title  { color: var(--blue); }
+
+    .s-green  .section-accent { background: var(--green); }
+    .s-green  .section-num    { background: var(--green); }
+    .s-green  .section-title  { color: var(--green); }
+
+    .s-purple .section-accent { background: var(--purple); }
+    .s-purple .section-num    { background: var(--purple); }
+    .s-purple .section-title  { color: var(--purple); }
+
+    .s-amber  .section-accent { background: var(--amber); }
+    .s-amber  .section-num    { background: var(--amber); }
+    .s-amber  .section-title  { color: var(--amber); }
+
+    .s-red    .section-accent { background: var(--red); }
+    .s-red    .section-num    { background: var(--red); }
+    .s-red    .section-title  { color: var(--red); }
+
+    /* ── OKR LIST ────────────────────────────────────── */
+    .okr-list { list-style: none; }
+
+    .okr-item {
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+      padding: 5px 0;
+      border-bottom: 1px solid #F0EDE7;
+      font-size: 12px;
+    }
+
+    .okr-item:last-child { border-bottom: none; }
+
+    .dash {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-faint);
+      flex-shrink: 0;
+    }
+
+    .okr-text { flex: 1; }
+
+    .owner {
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      background: var(--bg);
+      border: 1px solid var(--divider);
+      padding: 1px 6px;
+      border-radius: 2px;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    /* ── SIMPLE BULLET LIST ──────────────────────────── */
+    .bullet-list { list-style: none; }
+
+    .bullet-item {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+      padding: 5px 0;
+      font-size: 12px;
+    }
+
+    .bullet-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    /* ── PROCESS LIST ────────────────────────────────── */
+    .proc-item {
+      display: flex;
+      gap: 8px;
+      padding: 5px 0;
+      font-size: 12px;
+    }
+
+    /* ── MEETING ITEMS ───────────────────────────────── */
+    .meeting-block { margin-bottom: 16px; }
+    .meeting-block:last-child { margin-bottom: 0; }
+
+    .meeting-name {
+      font-weight: 600;
+      font-size: 12px;
+      margin-bottom: 1px;
+    }
+
+    .meeting-time {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.07em;
+      margin-bottom: 5px;
+    }
+
+    .s-amber .meeting-time { color: var(--amber); }
+
+    .meeting-agenda { list-style: none; }
+
+    .meeting-agenda li {
+      display: flex;
+      gap: 7px;
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 2px 0;
+    }
+
+    /* ── PAGE FOOTER ─────────────────────────────────── */
+    .page-footer {
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      color: var(--text-faint);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── PRINT ───────────────────────────────────────── */
+    @page {
+      size: A4 landscape;
+      margin: 10mm 12mm;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+        font-size: 10px;
+        background: var(--bg);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .page-header { margin-bottom: 14px; }
+      .page-title  { font-size: 20px; }
+      .page-eyebrow { margin-bottom: 5px; }
+      .section { padding: 12px 14px 14px; }
+      .section-header { margin-bottom: 9px; }
+      .section-title  { font-size: 11.5px; }
+      .okr-item, .bullet-item, .proc-item { padding: 3px 0; font-size: 9.5px; }
+      .meeting-block  { margin-bottom: 9px; }
+      .meeting-name   { font-size: 9.5px; }
+      .meeting-agenda li { font-size: 9px; }
+      .page-footer    { margin-top: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <div class="page-eyebrow">Team Meeting · GEC</div>
+    <h1 class="page-title">Q2 Focus Session</h1>
+    <div class="page-sub">01 მაისი, 2026 &nbsp;·&nbsp; მომდევნო 3 თვე</div>
+  </header>
+
+  <div class="grid-wrapper">
+
+    <!-- ── TOP BAND ───────────────────────────────────── -->
+    <div class="top-band">
+
+      <!-- 01 OKRs -->
+      <div class="section s-blue">
+        <div class="section-accent"></div>
+        <div class="section-header">
+          <span class="section-num">01</span>
+          <h2 class="section-title">OKR — მომდევნო 3 თვე</h2>
+        </div>
+        <ul class="okr-list">
+          <li class="okr-item">
+            <span class="dash">—</span>
+            <span class="okr-text">Integration</span>
+            <span class="owner">დათო</span>
+          </li>
+          <li class="okr-item">
+            <span class="dash">—</span>
+            <span class="okr-text">SME in Progress – 17</span>
+            <span class="owner">რომა</span>
+          </li>
+          <li class="okr-item">
+            <span class="dash">—</span>
+            <span class="okr-text">GEC Odoo</span>
+            <span class="owner">ნინი</span>
+          </li>
+          <li class="okr-item">
+            <span class="dash">—</span>
+            <span class="okr-text">ALTA testing acc / HR</span>
+            <span class="owner">ბექა</span>
+          </li>
+          <li class="okr-item">
+            <span class="dash">—</span>
+            <span class="okr-text">INSI ქირურგია გაშვებულია</span>
+            <span class="owner">გიორგი</span>
+          </li>
+          <li class="okr-item">
+            <span class="dash">—</span>
+            <span class="okr-text">1 additional donor</span>
+            <span class="owner">სოფო</span>
+          </li>
+          <li class="okr-item">
+            <span class="dash">—</span>
+            <span class="okr-text">Altrex converted</span>
+            <span class="owner">გიორგი</span>
+          </li>
+          <li class="okr-item">
+            <span class="dash">—</span>
+            <span class="okr-text">Odoo silver</span>
+            <span class="owner">საბა</span>
+          </li>
+          <li class="okr-item">
+            <span class="dash">—</span>
+            <span class="okr-text">GEC სისტემა გამართულია — ოპერაციები გადაცემული</span>
+            <span class="owner">სოფო</span>
+          </li>
+          <li class="okr-item">
+            <span class="dash">—</span>
+            <span class="okr-text">Marketing მანქანა გაშვებულია → GEC, Strat, Client</span>
+            <span class="owner">ლიკუნა · ნინი</span>
+          </li>
+          <li class="okr-item">
+            <span class="dash">—</span>
+            <span class="okr-text">EBRD digital</span>
+            <span class="owner">ბექა</span>
+          </li>
+          <li class="okr-item">
+            <span class="dash">—</span>
+            <span class="okr-text">Tender Compass – 50</span>
+            <span class="owner">დაჩი</span>
+          </li>
+          <li class="okr-item">
+            <span class="dash">—</span>
+            <span class="okr-text">Business process assessments</span>
+            <span class="owner">გიორგი · ეკა</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 02 Achievements -->
+      <div class="section s-green">
+        <div class="section-accent"></div>
+        <div class="section-header">
+          <span class="section-num">02</span>
+          <h2 class="section-title">შედეგები</h2>
+        </div>
+        <ul class="bullet-list">
+          <li class="bullet-item">
+            <span class="bullet-dot" style="background: var(--green);"></span>
+            <span>ALTA, UNDP, Odoo, Compass, Certificates</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-dot" style="background: var(--green);"></span>
+            <span>სავარაუდო კლიენტმა მოგვაკითხა</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-dot" style="background: var(--green);"></span>
+            <span>Shareholders structure</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-dot" style="background: var(--green);"></span>
+            <span>AI integration</span>
+          </li>
+        </ul>
+      </div>
+
+    </div><!-- /top-band -->
+
+    <!-- ── BOTTOM BAND ─────────────────────────────────── -->
+    <div class="bottom-band">
+
+      <!-- 03 Processes -->
+      <div class="section s-purple">
+        <div class="section-accent"></div>
+        <div class="section-header">
+          <span class="section-num">03</span>
+          <h2 class="section-title">პროცესები</h2>
+        </div>
+        <ul class="bullet-list">
+          <li class="proc-item">
+            <span class="dash">—</span>
+            <span>Onboarding process</span>
+          </li>
+          <li class="proc-item">
+            <span class="dash">—</span>
+            <span>Internal processes</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 04 Meetings -->
+      <div class="section s-amber">
+        <div class="section-accent"></div>
+        <div class="section-header">
+          <span class="section-num">04</span>
+          <h2 class="section-title">შეხვედრების კალენდარი</h2>
+        </div>
+
+        <div class="meeting-block">
+          <div class="meeting-name">Team Meeting</div>
+          <div class="meeting-time">პარასკევი · 10:30</div>
+          <ul class="meeting-agenda">
+            <li><span class="dash">—</span><span>რა გავაკეთე მიმდინარედ</span></li>
+            <li><span class="dash">—</span><span>სად რა მიჭირს</span></li>
+            <li><span class="dash">—</span><span>რას ვაპირებ შემდეგ კვირას</span></li>
+          </ul>
+        </div>
+
+        <div class="meeting-block">
+          <div class="meeting-name">Reflection Hour</div>
+          <div class="meeting-time">ორშაბათი · 15:00 – 16:30</div>
+        </div>
+      </div>
+
+      <!-- 05 Gaps -->
+      <div class="section s-red">
+        <div class="section-accent"></div>
+        <div class="section-header">
+          <span class="section-num">05</span>
+          <h2 class="section-title">გვაკლია</h2>
+        </div>
+        <ul class="bullet-list">
+          <li class="proc-item">
+            <span class="dash">—</span>
+            <span>კომუნიკაცია — პროექტების ინდივიდუალური შეხვედრები საჭიროა</span>
+          </li>
+        </ul>
+      </div>
+
+    </div><!-- /bottom-band -->
+
+  </div><!-- /grid-wrapper -->
+
+  <footer class="page-footer">
+    <span>file:///Users/liakereselidze/Projects/gec-team-meeting-may2026.html</span>
+    <span>01.05.2026</span>
+  </footer>
+
+</body>
+</html>

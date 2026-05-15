@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEC — უფასო ვორქშოფი</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+    --bg:#0d2233;--card:#132d42;
+    --green:#049978;--orange:#F05324;--yellow:#F0B91C;--teal:#226263;
+    --text:#fff;--muted:rgba(255,255,255,0.5);
+}
+body{
+    font-family:'Poppins',sans-serif;
+    background:var(--bg);color:var(--text);
+    min-height:100vh;display:flex;align-items:center;justify-content:center;
+    padding:24px;
+}
+.container{
+    width:100%;max-width:480px;
+    background:var(--card);border-radius:20px;
+    border:1px solid rgba(4,153,120,0.2);
+    padding:36px 32px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.4);
+}
+.logo{text-align:center;margin-bottom:8px;}
+.logo img{height:72px;}
+.badge{
+    text-align:center;margin:16px 0 6px;
+    display:inline-block;width:100%;
+}
+.badge span{
+    background:linear-gradient(135deg,rgba(240,83,36,0.15),rgba(240,83,36,0.05));
+    border:1px solid rgba(240,83,36,0.3);border-radius:20px;
+    padding:6px 18px;font-size:13px;font-weight:500;color:var(--orange);
+}
+h1{
+    text-align:center;font-size:13px;font-weight:600;
+    margin:18px 0 6px;line-height:1.4;
+}
+h1 .accent{color:var(--green);}
+.subtitle{
+    text-align:center;font-size:13px;color:var(--muted);
+    margin-bottom:28px;line-height:1.5;
+}
+.field{margin-bottom:16px;}
+.field label{
+    display:block;font-size:12px;font-weight:500;
+    color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.5px;
+}
+.field input{
+    width:100%;padding:12px 14px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:10px;color:#fff;font-size:14px;
+    font-family:'Poppins',sans-serif;
+    transition:border-color 0.3s;
+}
+.field input:focus{
+    outline:none;border-color:var(--green);
+    background:rgba(4,153,120,0.06);
+}
+.field input::placeholder{color:rgba(255,255,255,0.25);}
+.row{display:flex;gap:12px;}
+.row .field{flex:1;}
+button{
+    width:100%;padding:14px;margin-top:8px;
+    background:linear-gradient(135deg,var(--green),#2bb894);
+    border:none;border-radius:12px;
+    color:#fff;font-size:15px;font-weight:600;
+    font-family:'Poppins',sans-serif;
+    cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;
+    letter-spacing:0.3px;
+}
+button:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(4,153,120,0.4);}
+button:active{transform:translateY(0);}
+.counter{
+    text-align:center;margin-top:16px;
+    font-size:12px;color:var(--muted);
+}
+.counter strong{color:var(--orange);}
+
+/* Success state */
+.success{display:none;text-align:center;padding:30px 0;}
+.success .check{
+    width:72px;height:72px;margin:0 auto 20px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--green),#2bb894);
+    display:flex;align-items:center;justify-content:center;
+    font-size:36px;
+    animation:popIn 0.4s ease;
+}
+@keyframes popIn{0%{transform:scale(0)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+.success h2{font-size:20px;margin-bottom:8px;color:var(--green);}
+.success p{font-size:14px;color:var(--muted);line-height:1.6;}
+
+.form-wrap{transition:opacity 0.3s;}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo"><img src="gec-logo.png" alt="GEC"></div>
+    <div class="badge"><span>პირველ 15 მონაწილეს</span></div>
+    <h1>უფასო <span class="accent">1-საათიანი</span> ვორქშოფი თქვენი გუნდისთვის</h1>
+    <p class="subtitle">დარეგისტრირდით ახლავე და მიიღეთ ინდივიდუალური ვორქშოფი თქვენი გუნდისთვის</p>
+
+    <div class="form-wrap" id="formWrap">
+        <form id="regForm" name="workshop-registration" action="/register.html" method="POST" data-netlify="true">
+            <input type="hidden" name="form-name" value="workshop-registration">
+            <div class="row">
+                <div class="field">
+                    <label>სახელი</label>
+                    <input type="text" name="first_name" placeholder="სახელი" required>
+                </div>
+                <div class="field">
+                    <label>გვარი</label>
+                    <input type="text" name="last_name" placeholder="გვარი" required>
+                </div>
+            </div>
+            <div class="field">
+                <label>პოზიცია</label>
+                <input type="text" name="position" placeholder="მაგ: დირექტორი">
+            </div>
+            <div class="field">
+                <label>კომპანია</label>
+                <input type="text" name="company" placeholder="კომპანიის სახელი" required>
+            </div>
+            <div class="field">
+                <label>ელ-ფოსტა</label>
+                <input type="email" name="email" placeholder="name@company.ge" required>
+            </div>
+            <div class="field">
+                <label>მობილური</label>
+                <input type="tel" name="phone" placeholder="5XX XXX XXX" required>
+            </div>
+            <button type="submit">რეგისტრაცია</button>
+            <div class="counter">დარჩენილია: <strong id="spotsLeft">15</strong> ადგილი</div>
+        </form>
+    </div>
+
+    <div class="success" id="successMsg">
+        <div class="check">&#10003;</div>
+        <h2>რეგისტრაცია წარმატებულია!</h2>
+        <p>მადლობა! ჩვენი გუნდი მალე დაგიკავშირდებათ ვორქშოფის დეტალების შესათანხმებლად.</p>
+    </div>
+</div>
+
+<script>
+document.getElementById('regForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var form = this;
+    var data = new FormData(form);
+
+    fetch('/register.html', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: new URLSearchParams(data).toString()
+    }).then(function(response){
+        if (!response.ok) throw new Error('Status ' + response.status);
+        document.getElementById('formWrap').style.opacity = '0';
+        document.querySelector('.subtitle').style.display = 'none';
+        setTimeout(function(){
+            document.getElementById('formWrap').style.display = 'none';
+            document.getElementById('successMsg').style.display = 'block';
+        }, 300);
+    }).catch(function(){
+        alert('რეგისტრაცია ვერ მოხერხდა. გთხოვთ სცადოთ თავიდან.');
+    });
+});
+</script>
+</body>
+</html>

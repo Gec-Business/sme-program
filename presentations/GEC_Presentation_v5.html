@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEC - როგორ გავიზარდო</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-dark: #153749;
+            --teal-dark: #226263;
+            --green: #049978;
+            --orange: #F05324;
+            --yellow: #F0B91C;
+            --white: #FFFFFF;
+            --blue: #3a7ca5;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-dark);
+            color: var(--white);
+            overflow: hidden;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 18px 30px 10px;
+            position: relative;
+            background: linear-gradient(135deg, #0d2233 0%, #153749 40%, #1a4a5e 70%, #226263 100%);
+            overflow: hidden;
+        }
+
+        .slide-inner {
+            width: 100%;
+            max-width: 100%;
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide.active { display: flex; }
+
+        /* Floating Animated Blobs */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            animation: blobFloat 20s ease-in-out infinite;
+        }
+
+        .blob-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--orange) 0%, transparent 70%);
+            top: -20%;
+            right: -10%;
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--green) 0%, transparent 70%);
+            bottom: -15%;
+            left: -5%;
+            animation-delay: -7s;
+        }
+
+        .blob-3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--yellow) 0%, transparent 70%);
+            top: 50%;
+            right: 30%;
+            animation-delay: -14s;
+            opacity: 0.2;
+        }
+
+        @keyframes blobFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 10px) scale(1.02); }
+        }
+
+        /* Grid Overlay */
+        .grid-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 30s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 60px 60px; }
+        }
+
+        /* Header — fixed position across all slides */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 0 10px;
+            position: relative;
+            z-index: 10;
+            flex-shrink: 0;
+        }
+
+        .slide-title-area h3 {
+            font-size: 14px;
+            color: var(--orange);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 3px;
+        }
+
+        .slide-title-area h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .logo img {
+            height: 165px;
+            width: auto;
+            filter: drop-shadow(0 6px 18px rgba(0,0,0,0.5));
+            animation: logoFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .highlight { color: var(--orange); }
+        .green { color: var(--green); }
+        .blue { color: var(--blue); }
+        .yellow { color: var(--yellow); }
+
+        /* Content — fills remaining space */
+        .slide-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            position: relative;
+            z-index: 10;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .text-block {
+            flex: 0 0 350px;
+        }
+
+        .visual-block {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Website footer — right-aligned */
+        .website {
+            position: absolute;
+            bottom: 14px;
+            right: 30px;
+            font-size: 12px;
+            color: var(--green);
+            letter-spacing: 2px;
+            z-index: 10;
+            font-weight: 500;
+        }
+
+        /* SVG Illustrations — fill available space */
+        .illustration-container {
+            width: 100%;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .illustration-container svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
+        }
+
+        /* SVG label classes */
+        .diagram-label {
+            font-size: 11px;
+            fill: rgba(255,255,255,0.7);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .diagram-label-bold {
+            font-size: 12px;
+            fill: #ffffff;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Animated elements */
+        .pulse { animation: pulse 2s ease-in-out infinite; }
+        .pulse-delay-1 { animation-delay: 0.3s; }
+        .pulse-delay-2 { animation-delay: 0.6s; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .flow-line {
+            stroke-dasharray: 10 5;
+            animation: flowDash 2s linear infinite;
+        }
+
+        @keyframes flowDash {
+            to { stroke-dashoffset: -30; }
+        }
+
+        .glow {
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 5px currentColor); }
+            50% { filter: drop-shadow(0 0 20px currentColor); }
+        }
+
+        .float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .rotate-slow {
+            animation: rotateSlow 20s linear infinite;
+            transform-origin: center;
+        }
+
+        @keyframes rotateSlow {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Baymax styles */
+        .baymax-container {
+            width: 200px;
+            height: 220px;
+            position: relative;
+            animation: baymaxFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes baymaxFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .baymax-body {
+            width: 140px;
+            height: 130px;
+            background: linear-gradient(145deg, #ffffff, #e8e8e8);
+            border-radius: 70px 70px 60px 60px;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), inset 0 -10px 30px rgba(0,0,0,0.05);
+        }
+
+        .baymax-head {
+            width: 100px;
+            height: 70px;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 50px 50px 45px 45px;
+            position: absolute;
+            bottom: 115px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .baymax-eyes {
+            position: absolute;
+            top: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+
+        .baymax-eye {
+            width: 20px;
+            height: 6px;
+            background: #153749;
+            border-radius: 3px;
+        }
+
+        .baymax-eye-connector {
+            position: absolute;
+            top: 31px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 2px;
+            background: #153749;
+        }
+
+        .baymax-arm {
+            width: 35px;
+            height: 70px;
+            background: linear-gradient(145deg, #ffffff, #e8e8e8);
+            border-radius: 20px;
+            position: absolute;
+            bottom: 40px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .baymax-arm.left {
+            left: 5px;
+            transform: rotate(15deg);
+            animation: armWave 3s ease-in-out infinite;
+        }
+
+        .baymax-arm.right {
+            right: 5px;
+            transform: rotate(-15deg);
+            animation: armWave 3s ease-in-out infinite 0.5s;
+        }
+
+        @keyframes armWave {
+            0%, 100% { transform: rotate(15deg); }
+            50% { transform: rotate(25deg); }
+        }
+
+        /* Contact slide */
+        .contact-center {
+            text-align: center;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo-large img {
+            height: 90px;
+            width: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 12px 30px rgba(0,0,0,0.4));
+            animation: logoFloat 6s ease-in-out infinite;
+        }
+
+        .contact-name {
+            font-size: 44px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--white), rgba(255,255,255,0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-company {
+            font-size: 26px;
+            color: var(--orange);
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(240,83,36,0.4);
+        }
+
+        .contact-info {
+            font-size: 20px;
+            margin-bottom: 12px;
+            opacity: 0.9;
+        }
+
+        .contact-tagline {
+            font-size: 28px;
+            color: var(--green);
+            margin-top: 20px;
+            font-style: italic;
+            text-shadow: 0 0 30px rgba(4,153,120,0.4);
+        }
+
+        .baymax-small {
+            margin-top: 30px;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+            padding: 7px 16px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-dot:hover {
+            background: rgba(255,255,255,0.6);
+        }
+
+        .nav-dot.active {
+            background: var(--orange);
+            box-shadow: 0 0 15px var(--orange);
+            transform: scale(1.3);
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 50%;
+            right: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .control-btn {
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid rgba(255,255,255,0.3);
+            background: rgba(0,0,0,0.3);
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-btn:hover {
+            background: var(--orange);
+            border-color: var(--orange);
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(240,83,36,0.4);
+        }
+
+        /* Pyramid styles */
+        .pyramid-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .pyramid-level {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 40px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: default;
+        }
+
+        .pyramid-level:hover {
+            transform: scale(1.05);
+        }
+
+        /* Timeline styles */
+        .timeline-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 60px;
+            padding-top: 40px;
+        }
+
+        .timeline-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .timeline-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .timeline-label {
+            font-size: 14px;
+            color: rgba(255,255,255,0.8);
+            max-width: 120px;
+        }
+
+        /* VUCA/BANI card styles */
+        .framework-cards {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .framework-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            min-width: 150px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .framework-letter {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .framework-word {
+            font-size: 12px;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Dance animation */
+        @keyframes danceSway {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+
+        @keyframes danceSwayReverse {
+            0%, 100% { transform: translateY(0) rotate(2deg); }
+            50% { transform: translateY(-8px) rotate(-2deg); }
+        }
+
+        .dancer {
+            animation: danceSway 2s ease-in-out infinite;
+        }
+
+        .dancer-reverse {
+            animation: danceSwayReverse 2s ease-in-out infinite;
+        }
+
+        .dancer-delay {
+            animation-delay: 0.5s;
+        }
+    
+    /* Crowd walking animations */
+    .cwalk {
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-fill-mode: both;
+    }
+    @keyframes cw1 { 0% { transform: translate(0,0); } 25% { transform: translate(35px, -15px); } 50% { transform: translate(50px, 10px); } 75% { transform: translate(20px, 25px); } 100% { transform: translate(0,0); } }
+    @keyframes cw2 { 0% { transform: translate(0,0); } 25% { transform: translate(-30px, 20px); } 50% { transform: translate(-50px, -5px); } 75% { transform: translate(-15px, -25px); } 100% { transform: translate(0,0); } }
+    @keyframes cw3 { 0% { transform: translate(0,0); } 20% { transform: translate(25px, 30px); } 40% { transform: translate(45px, 5px); } 60% { transform: translate(20px, -20px); } 80% { transform: translate(-10px, -10px); } 100% { transform: translate(0,0); } }
+    @keyframes cw4 { 0% { transform: translate(0,0); } 25% { transform: translate(-40px, -10px); } 50% { transform: translate(-20px, -35px); } 75% { transform: translate(10px, -15px); } 100% { transform: translate(0,0); } }
+    @keyframes cw5 { 0% { transform: translate(0,0); } 20% { transform: translate(15px, -30px); } 40% { transform: translate(40px, -10px); } 60% { transform: translate(30px, 20px); } 80% { transform: translate(5px, 15px); } 100% { transform: translate(0,0); } }
+    @keyframes cw6 { 0% { transform: translate(0,0); } 25% { transform: translate(-20px, 35px); } 50% { transform: translate(-45px, 15px); } 75% { transform: translate(-25px, -10px); } 100% { transform: translate(0,0); } }
+    @keyframes cw7 { 0% { transform: translate(0,0); } 20% { transform: translate(-35px, -20px); } 40% { transform: translate(-10px, -40px); } 60% { transform: translate(20px, -25px); } 80% { transform: translate(15px, 5px); } 100% { transform: translate(0,0); } }
+    @keyframes cw8 { 0% { transform: translate(0,0); } 25% { transform: translate(45px, 5px); } 50% { transform: translate(25px, 30px); } 75% { transform: translate(-5px, 20px); } 100% { transform: translate(0,0); } }
+    @keyframes cw9 { 0% { transform: translate(0,0); } 20% { transform: translate(-15px, 25px); } 40% { transform: translate(-40px, 35px); } 60% { transform: translate(-30px, 10px); } 80% { transform: translate(-5px, -5px); } 100% { transform: translate(0,0); } }
+    @keyframes cw10 { 0% { transform: translate(0,0); } 25% { transform: translate(30px, -25px); } 50% { transform: translate(10px, -45px); } 75% { transform: translate(-15px, -20px); } 100% { transform: translate(0,0); } }
+    @keyframes cw11 { 0% { transform: translate(0,0); } 20% { transform: translate(-25px, -30px); } 40% { transform: translate(-45px, -5px); } 60% { transform: translate(-20px, 25px); } 80% { transform: translate(10px, 10px); } 100% { transform: translate(0,0); } }
+    @keyframes cw12 { 0% { transform: translate(0,0); } 25% { transform: translate(20px, 40px); } 50% { transform: translate(-10px, 30px); } 75% { transform: translate(-30px, 10px); } 100% { transform: translate(0,0); } }
+    .cwalk-1 { animation-name: cw1; }
+    .cwalk-2 { animation-name: cw2; }
+    .cwalk-3 { animation-name: cw3; }
+    .cwalk-4 { animation-name: cw4; }
+    .cwalk-5 { animation-name: cw5; }
+    .cwalk-6 { animation-name: cw6; }
+    .cwalk-7 { animation-name: cw7; }
+    .cwalk-8 { animation-name: cw8; }
+    .cwalk-9 { animation-name: cw9; }
+    .cwalk-10 { animation-name: cw10; }
+    .cwalk-11 { animation-name: cw11; }
+    .cwalk-12 { animation-name: cw12; }
+
+    /* ===== TEXT FADE — slide 3 ===== */
+    .scramble-area {
+        position: absolute;
+        left: 0; top: 0; width: 50%; height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #scramble-text {
+        font-family: 'Poppins', sans-serif;
+        font-size: min(5vw, 82px);
+        font-weight: 400;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+    #scramble-text .fade-char {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    #scramble-text.color-orange .fade-char { background-image: linear-gradient(135deg, #F05324, #f47a52, #F05324); }
+    #scramble-text.color-green  .fade-char { background-image: linear-gradient(135deg, #049978, #2bb894, #049978); }
+    #scramble-text.color-yellow .fade-char { background-image: linear-gradient(135deg, #F0B91C, #f5cc4a, #F0B91C); }
+    #scramble-text.color-teal   .fade-char { background-image: linear-gradient(135deg, #226263, #3a8a8b, #226263); }
+    #scramble-text .fade-char.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    #scramble-text .fade-char.fading-out {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+        /* Animated group — slide 6 cards (scale preset) */
+        .animated-group > div {
+            opacity: 0;
+            transform: scale(0);
+            transform-origin: right bottom;
+        }
+        .animated-group > div.anim-visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .animated-group > div:nth-child(1) { transition: opacity 3.5s ease, transform 3.5s cubic-bezier(0.34, 1.56, 0.64, 1); transition-delay: 0s; }
+        .animated-group > div:nth-child(2) { transition: opacity 3.5s ease, transform 3.5s cubic-bezier(0.34, 1.56, 0.64, 1); transition-delay: 3s; }
+        .animated-group > div:nth-child(3) { transition: opacity 3.5s ease, transform 3.5s cubic-bezier(0.34, 1.56, 0.64, 1); transition-delay: 6s; }
+        .animated-group > div:nth-child(4) { transition: opacity 3.5s ease, transform 3.5s cubic-bezier(0.34, 1.56, 0.64, 1); transition-delay: 9s; }
+
+        </style>
+</head>
+<body>
+
+    <!-- SLIDE 1: Welcome -->
+    <div class="slide active" id="slide1">
+
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner" style="display: flex; align-items: center; justify-content: center; height: 100%; padding: 0 40px;">
+            <div style="display: flex; align-items: center; gap: 40px;">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                    <img data-pin="logo" src="gec-logo.png" alt="GEC" style="height: 340px; width: auto; filter: drop-shadow(0 12px 30px rgba(0,0,0,0.4)); position: relative; left: 12px; top: 4px;">
+                    <div data-pin="tagline" style="font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-align: center; margin-top: -10px; position: relative; left: 17px; top: -61px;">From Delivery to Lasting Impact</div>
+                </div>
+                <div style="width: 1.5px; height: 450px; background: #ffffff; opacity: 0.7; flex-shrink: 0;"></div>
+                <img data-pin="illustration" src="illustration.jpg" alt="GEC Illustration" style="height: 260px; width: auto; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); position: relative; left: 46px; top: 9px;">
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+    <!-- SLIDE 2: მმართველის ფიქრები -->
+    <div class="slide" id="slide2">
+
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner">
+            <div class="slide-header">
+                <div class="slide-title-area">
+                    <h1 data-pin="s2-title">მმართველის <span class="highlight">ფიქრები</span></h1>
+                </div>
+                <div class="logo"><img src="gec-logo.png" alt="GEC"></div>
+            </div>
+            <div class="slide-content" style="justify-content: center; align-items: center;">
+                <div data-pin="s2-crowd" class="illustration-container" style="max-width: 100%;">
+                <svg viewBox="-30 -60 1160 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                    <!-- Crowd — shifted up -->
+                    <g transform="translate(0,-60)">
+
+                    <!-- ====== CROWD — organic spread ====== -->
+                    <g id="slide2-crowd" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <g class="cwalk cwalk-2" style="animation-delay:7.6s;animation-duration:8.7s;animation-direction:reverse"><g transform="translate(550,330) scale(0.531) rotate(-5)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-3" style="animation-delay:5.9s;animation-duration:9.2s;animation-direction:normal"><g transform="translate(480,326) scale(0.544) rotate(2)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-4" style="animation-delay:6.0s;animation-duration:14.7s;animation-direction:reverse"><g transform="translate(492,363) scale(0.763) rotate(4)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-5" style="animation-delay:2.8s;animation-duration:10.4s;animation-direction:reverse"><g transform="translate(527,300) scale(0.574) rotate(6)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-6" style="animation-delay:7.7s;animation-duration:13.8s;animation-direction:reverse"><g transform="translate(599,319) scale(0.630) rotate(-2)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-7" style="animation-delay:4.3s;animation-duration:13.3s;animation-direction:reverse"><g transform="translate(559,281) scale(0.539) rotate(5)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-8" style="animation-delay:3.2s;animation-duration:11.1s;animation-direction:reverse"><g transform="translate(627,357) scale(0.658) rotate(-1)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-9" style="animation-delay:3.4s;animation-duration:13.8s;animation-direction:reverse"><g transform="translate(595,245) scale(0.410) rotate(5)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-10" style="animation-delay:5.0s;animation-duration:12.3s;animation-direction:reverse"><g transform="translate(550,375) scale(0.755) rotate(6)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-11" style="animation-delay:0.3s;animation-duration:13.1s;animation-direction:normal"><g transform="translate(591,358) scale(0.730) rotate(-4)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-12" style="animation-delay:5.6s;animation-duration:9.8s;animation-direction:normal"><g transform="translate(482,287) scale(0.564) rotate(-2)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-1" style="animation-delay:6.7s;animation-duration:12.6s;animation-direction:reverse"><g transform="translate(482,224) scale(0.448) rotate(5)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-2" style="animation-delay:1.9s;animation-duration:8.4s;animation-direction:normal"><g transform="translate(587,426) scale(0.697) rotate(5)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-3" style="animation-delay:6.0s;animation-duration:12.0s;animation-direction:normal"><g transform="translate(513,414) scale(0.709) rotate(3)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-4" style="animation-delay:6.1s;animation-duration:9.6s;animation-direction:reverse"><g transform="translate(526,220) scale(0.349) rotate(-6)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-5" style="animation-delay:2.4s;animation-duration:11.3s;animation-direction:reverse"><g transform="translate(567,177) scale(0.398) rotate(5)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-6" style="animation-delay:0.9s;animation-duration:14.6s;animation-direction:reverse"><g transform="translate(506,255) scale(0.492) rotate(2)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-7" style="animation-delay:2.5s;animation-duration:15.5s;animation-direction:reverse"><g transform="translate(424,292) scale(0.506) rotate(-5)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-8" style="animation-delay:1.6s;animation-duration:10.9s;animation-direction:normal"><g transform="translate(503,189) scale(0.324) rotate(-3)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-9" style="animation-delay:6.7s;animation-duration:11.7s;animation-direction:reverse"><g transform="translate(626,418) scale(0.768) rotate(2)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-10" style="animation-delay:4.4s;animation-duration:9.8s;animation-direction:normal"><g transform="translate(693,387) scale(0.699) rotate(-1)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-11" style="animation-delay:2.4s;animation-duration:11.5s;animation-direction:normal"><g transform="translate(603,487) scale(0.950) rotate(3)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-12" style="animation-delay:5.6s;animation-duration:9.0s;animation-direction:reverse"><g transform="translate(443,342) scale(0.723) rotate(-5)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-1" style="animation-delay:3.8s;animation-duration:11.3s;animation-direction:reverse"><g transform="translate(446,386) scale(0.772) rotate(-2)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-2" style="animation-delay:0.9s;animation-duration:12.8s;animation-direction:reverse"><g transform="translate(545,484) scale(0.846) rotate(-1)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-3" style="animation-delay:7.1s;animation-duration:14.5s;animation-direction:normal"><g transform="translate(453,424) scale(0.720) rotate(4)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-4" style="animation-delay:6.5s;animation-duration:10.0s;animation-direction:reverse"><g transform="translate(454,253) scale(0.506) rotate(3)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-5" style="animation-delay:2.4s;animation-duration:13.6s;animation-direction:normal"><g transform="translate(403,374) scale(0.740) rotate(6)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-6" style="animation-delay:0.7s;animation-duration:10.2s;animation-direction:reverse"><g transform="translate(662,340) scale(0.632) rotate(-1)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-7" style="animation-delay:3.6s;animation-duration:11.3s;animation-direction:reverse"><g transform="translate(401,211) scale(0.466) rotate(5)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-8" style="animation-delay:3.9s;animation-duration:11.9s;animation-direction:normal"><g transform="translate(374,302) scale(0.664) rotate(-1)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-9" style="animation-delay:1.0s;animation-duration:12.4s;animation-direction:reverse"><g transform="translate(654,383) scale(0.700) rotate(1)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-10" style="animation-delay:4.5s;animation-duration:9.8s;animation-direction:normal"><g transform="translate(328,361) scale(0.722) rotate(5)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-11" style="animation-delay:1.4s;animation-duration:11.8s;animation-direction:reverse"><g transform="translate(736,356) scale(0.673)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-12" style="animation-delay:7.8s;animation-duration:10.2s;animation-direction:normal"><g transform="translate(632,455) scale(0.936) rotate(4)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-1" style="animation-delay:5.8s;animation-duration:14.4s;animation-direction:reverse"><g transform="translate(401,336) scale(0.620) rotate(-4)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-2" style="animation-delay:3.3s;animation-duration:10.8s;animation-direction:normal"><g transform="translate(642,281) scale(0.563) rotate(-4)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-3" style="animation-delay:4.5s;animation-duration:13.6s;animation-direction:normal"><g transform="translate(338,246) scale(0.377) rotate(2)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-4" style="animation-delay:0.3s;animation-duration:13.1s;animation-direction:normal"><g transform="translate(458,467) scale(0.841)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-5" style="animation-delay:1.6s;animation-duration:13.7s;animation-direction:normal"><g transform="translate(406,251) scale(0.387) rotate(-2)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-6" style="animation-delay:4.2s;animation-duration:10.6s;animation-direction:normal"><g transform="translate(671,469) scale(0.793) rotate(-4)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-7" style="animation-delay:3.2s;animation-duration:15.6s;animation-direction:reverse"><g transform="translate(608,207) scale(0.479) rotate(2)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-8" style="animation-delay:1.7s;animation-duration:13.2s;animation-direction:normal"><g transform="translate(298,282) scale(0.451) rotate(-6)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-9" style="animation-delay:2.0s;animation-duration:15.5s;animation-direction:reverse"><g transform="translate(688,431) scale(0.804) rotate(-1)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-10" style="animation-delay:5.4s;animation-duration:12.3s;animation-direction:normal"><g transform="translate(719,310) scale(0.538) rotate(2)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-11" style="animation-delay:3.6s;animation-duration:13.6s;animation-direction:reverse"><g transform="translate(715,459) scale(0.867)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-12" style="animation-delay:0.1s;animation-duration:13.2s;animation-direction:reverse"><g transform="translate(300,388) scale(0.643) rotate(6)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-1" style="animation-delay:4.5s;animation-duration:15.9s;animation-direction:reverse"><g transform="translate(643,243) scale(0.532)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-2" style="animation-delay:2.0s;animation-duration:12.8s;animation-direction:reverse"><g transform="translate(568,215) scale(0.445) rotate(3)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-3" style="animation-delay:5.1s;animation-duration:11.8s;animation-direction:reverse"><g transform="translate(290,213) scale(0.476) rotate(3)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-4" style="animation-delay:1.0s;animation-duration:11.3s;animation-direction:normal"><g transform="translate(791,281) scale(0.466)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-5" style="animation-delay:7.0s;animation-duration:9.6s;animation-direction:reverse"><g transform="translate(737,427) scale(0.762) rotate(-3)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-6" style="animation-delay:4.1s;animation-duration:9.6s;animation-direction:normal"><g transform="translate(244,259) scale(0.472) rotate(6)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-7" style="animation-delay:1.8s;animation-duration:13.7s;animation-direction:reverse"><g transform="translate(756,389) scale(0.716) rotate(-3)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-8" style="animation-delay:3.8s;animation-duration:14.5s;animation-direction:normal"><g transform="translate(773,322) scale(0.604)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-9" style="animation-delay:1.6s;animation-duration:15.6s;animation-direction:reverse"><g transform="translate(417,447) scale(0.913) rotate(-5)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-10" style="animation-delay:2.9s;animation-duration:11.4s;animation-direction:reverse"><g transform="translate(405,485) scale(0.950) rotate(6)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-11" style="animation-delay:3.4s;animation-duration:10.2s;animation-direction:reverse"><g transform="translate(340,318) scale(0.605) rotate(-6)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-12" style="animation-delay:3.2s;animation-duration:11.4s;animation-direction:reverse"><g transform="translate(280,315) scale(0.681) rotate(5)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-1" style="animation-delay:2.6s;animation-duration:14.9s;animation-direction:reverse"><g transform="translate(681,270) scale(0.555) rotate(2)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-2" style="animation-delay:6.0s;animation-duration:8.4s;animation-direction:normal"><g transform="translate(270,354) scale(0.638) rotate(5)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-3" style="animation-delay:0.2s;animation-duration:11.5s;animation-direction:reverse"><g transform="translate(358,416) scale(0.761) rotate(-5)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-4" style="animation-delay:5.8s;animation-duration:14.0s;animation-direction:reverse"><g transform="translate(427,185) scale(0.357) rotate(-5)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-5" style="animation-delay:6.6s;animation-duration:13.2s;animation-direction:reverse"><g transform="translate(813,310) scale(0.569) rotate(-1)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-6" style="animation-delay:6.7s;animation-duration:10.2s;animation-direction:normal"><g transform="translate(506,457) scale(0.874) rotate(-1)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-7" style="animation-delay:6.9s;animation-duration:10.9s;animation-direction:normal"><g transform="translate(229,302) scale(0.547) rotate(-2)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-8" style="animation-delay:4.4s;animation-duration:16.0s;animation-direction:normal"><g transform="translate(799,361) scale(0.699) rotate(-1)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-9" style="animation-delay:5.9s;animation-duration:11.4s;animation-direction:normal"><g transform="translate(831,278) scale(0.619)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-10" style="animation-delay:4.0s;animation-duration:13.8s;animation-direction:reverse"><g transform="translate(336,207) scale(0.494) rotate(3)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-11" style="animation-delay:2.8s;animation-duration:8.7s;animation-direction:reverse"><g transform="translate(786,418) scale(0.776)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-12" style="animation-delay:0.1s;animation-duration:13.4s;animation-direction:normal"><g transform="translate(550,434) scale(0.902) rotate(5)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-1" style="animation-delay:7.3s;animation-duration:11.3s;animation-direction:normal"><g transform="translate(789,455) scale(0.754) rotate(-4)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-2" style="animation-delay:2.1s;animation-duration:13.7s;animation-direction:normal"><g transform="translate(701,343) scale(0.669) rotate(-5)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-3" style="animation-delay:4.6s;animation-duration:9.1s;animation-direction:normal"><g transform="translate(236,388) scale(0.629) rotate(-6)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-4" style="animation-delay:2.3s;animation-duration:12.9s;animation-direction:normal"><g transform="translate(368,472) scale(0.889) rotate(-5)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-5" style="animation-delay:7.9s;animation-duration:12.1s;animation-direction:normal"><g transform="translate(734,242) scale(0.550) rotate(5)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-6" style="animation-delay:4.3s;animation-duration:13.2s;animation-direction:normal"><g transform="translate(365,356) scale(0.688) rotate(5)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-7" style="animation-delay:3.8s;animation-duration:8.5s;animation-direction:normal"><g transform="translate(654,173) scale(0.434)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-8" style="animation-delay:7.7s;animation-duration:8.2s;animation-direction:reverse"><g transform="translate(858,311) scale(0.503)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-9" style="animation-delay:4.8s;animation-duration:12.1s;animation-direction:normal"><g transform="translate(200,368) scale(0.596) rotate(-5)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-10" style="animation-delay:0.3s;animation-duration:13.4s;animation-direction:normal"><g transform="translate(890,329) scale(0.663) rotate(1)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-11" style="animation-delay:5.6s;animation-duration:14.6s;animation-direction:reverse"><g transform="translate(700,214) scale(0.395)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-12" style="animation-delay:7.3s;animation-duration:8.6s;animation-direction:reverse"><g transform="translate(299,457) scale(0.779) rotate(-4)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-1" style="animation-delay:7.9s;animation-duration:14.9s;animation-direction:reverse"><g transform="translate(270,426) scale(0.849) rotate(-4)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-2" style="animation-delay:7.3s;animation-duration:8.7s;animation-direction:reverse"><g transform="translate(408,410) scale(0.849) rotate(4)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-3" style="animation-delay:2.0s;animation-duration:14.2s;animation-direction:reverse"><g transform="translate(191,327) scale(0.559) rotate(1)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-4" style="animation-delay:5.4s;animation-duration:8.6s;animation-direction:normal"><g transform="translate(840,380) scale(0.810) rotate(1)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-5" style="animation-delay:4.4s;animation-duration:8.5s;animation-direction:reverse"><g transform="translate(879,238) scale(0.429)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-6" style="animation-delay:3.2s;animation-duration:14.4s;animation-direction:normal"><g transform="translate(755,289) scale(0.624)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-7" style="animation-delay:3.3s;animation-duration:10.7s;animation-direction:normal"><g transform="translate(239,220) scale(0.347) rotate(5)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-8" style="animation-delay:0.5s;animation-duration:8.9s;animation-direction:reverse"><g transform="translate(872,415) scale(0.746) rotate(2)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-9" style="animation-delay:6.5s;animation-duration:12.5s;animation-direction:reverse"><g transform="translate(224,437) scale(0.846) rotate(-4)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-10" style="animation-delay:0.8s;animation-duration:15.9s;animation-direction:normal"><g transform="translate(232,340) scale(0.605) rotate(2)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-11" style="animation-delay:6.5s;animation-duration:10.4s;animation-direction:normal"><g transform="translate(900,365) scale(0.678) rotate(-4)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-12" style="animation-delay:6.1s;animation-duration:10.3s;animation-direction:reverse"><g transform="translate(811,241) scale(0.512) rotate(-3)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-1" style="animation-delay:6.9s;animation-duration:15.5s;animation-direction:normal"><g transform="translate(769,192) scale(0.301) rotate(-5)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-2" style="animation-delay:5.8s;animation-duration:13.0s;animation-direction:reverse"><g transform="translate(322,424) scale(0.781)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-3" style="animation-delay:1.1s;animation-duration:14.9s;animation-direction:normal"><g transform="translate(838,213) scale(0.362) rotate(-4)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-4" style="animation-delay:5.9s;animation-duration:10.7s;animation-direction:normal"><g transform="translate(824,431) scale(0.752) rotate(-5)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-5" style="animation-delay:6.2s;animation-duration:11.8s;animation-direction:reverse"><g transform="translate(752,468) scale(0.925) rotate(-2)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-6" style="animation-delay:5.8s;animation-duration:15.8s;animation-direction:normal"><g transform="translate(773,228) scale(0.449) rotate(5)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-7" style="animation-delay:5.8s;animation-duration:12.7s;animation-direction:reverse"><g transform="translate(662,212) scale(0.367) rotate(-6)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-8" style="animation-delay:0.8s;animation-duration:15.4s;animation-direction:normal"><g transform="translate(208,263) scale(0.478) rotate(-5)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-9" style="animation-delay:6.3s;animation-duration:8.4s;animation-direction:normal"><g transform="translate(920,403) scale(0.832) rotate(3)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                        <g class="cwalk cwalk-10" style="animation-delay:5.3s;animation-duration:14.8s;animation-direction:reverse"><g transform="translate(874,278) scale(0.528) rotate(-5)"><circle r="10"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g></g>
+                        <g class="cwalk cwalk-11" style="animation-delay:2.1s;animation-duration:11.7s;animation-direction:reverse"><g transform="translate(874,453) scale(0.860) rotate(-2)"><circle r="10"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g></g>
+                    </g>
+                    </g>
+
+                    <!-- ====== BACKGROUND GLOWS (near highlighted figures) ====== -->
+                    <circle cx="430" cy="300" r="32" fill="rgba(240,83,36,0.12)"/>
+                    <circle cx="670" cy="300" r="32" fill="rgba(4,153,120,0.12)"/>
+                    <circle cx="390" cy="390" r="35" fill="rgba(240,185,28,0.12)"/>
+                    <circle cx="710" cy="390" r="35" fill="rgba(58,173,174,0.15)"/>
+                    <circle cx="550" cy="240" r="28" fill="rgba(255,255,255,0.07)"/>
+
+                    <!-- ====== 5 HIGHLIGHTED — in center crowd area ====== -->
+                    <!-- Orange (left upper bubble) -->
+                    <g transform="translate(430,300) scale(0.65)" fill="none" stroke="#F05324" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle r="10" fill="#F05324"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g>
+                    <!-- Green (right upper bubble) -->
+                    <g transform="translate(670,300) scale(0.65)" fill="none" stroke="#049978" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle r="10" fill="#049978"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M5 48 L6 78"/></g>
+                    <!-- Yellow (left lower bubble) -->
+                    <g transform="translate(390,390) scale(0.7)" fill="none" stroke="#F0B91C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle r="10" fill="#F0B91C"/><path d="M-10 -6 C-14 0 -12 8 -10 12 M10 -6 C14 0 12 8 10 12"/><path d="M-13 20 C-4 14 4 14 13 20 C12 34 10 42 8 48 L-8 48 C-10 42 -12 34 -13 20 Z"/><path d="M-13 22 C-18 34 -16 42 -12 48 M13 22 C18 34 16 42 12 48 M-5 48 L-6 78 M6 48 L8 78"/></g>
+                    <!-- Teal (right lower bubble) -->
+                    <g transform="translate(710,390) scale(0.7)" fill="none" stroke="#3aadae" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle r="10" fill="#3aadae"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g>
+                    <!-- White (top center bubble) -->
+                    <g transform="translate(550,240) scale(0.6)" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle r="10" fill="#FFFFFF"/><path d="M-15 20 C-6 14 6 14 15 20 C14 35 12 42 10 48 L-10 48 C-12 42 -14 35 -15 20 Z"/><path d="M-15 22 C-20 34 -18 44 -14 50 M15 22 C20 34 18 44 14 50 M-6 48 L-8 78 M6 48 L8 78"/></g>
+
+                    <!-- ====== BUBBLE TRAILS (diagonal from center figures toward bubble pointers) ====== -->
+                    <!-- Orange: figure(430,300) → bubble tip(210,176) -->
+                    <circle cx="375" cy="269" r="4" fill="rgba(240,83,36,0.5)"/>
+                    <circle cx="320" cy="238" r="6" fill="rgba(240,83,36,0.35)"/>
+                    <circle cx="265" cy="207" r="8" fill="rgba(240,83,36,0.2)"/>
+                    <!-- Green: figure(670,300) → bubble tip(810,176) -->
+                    <circle cx="705" cy="269" r="4" fill="rgba(4,153,120,0.5)"/>
+                    <circle cx="740" cy="238" r="6" fill="rgba(4,153,120,0.35)"/>
+                    <circle cx="775" cy="207" r="8" fill="rgba(4,153,120,0.2)"/>
+                    <!-- Yellow: figure(390,390) → bubble tip(160,302) -->
+                    <circle cx="332" cy="368" r="4" fill="rgba(240,185,28,0.5)"/>
+                    <circle cx="275" cy="346" r="6" fill="rgba(240,185,28,0.35)"/>
+                    <circle cx="218" cy="324" r="8" fill="rgba(240,185,28,0.2)"/>
+                    <!-- Teal: figure(710,390) → bubble tip(800,302) -->
+                    <circle cx="732" cy="368" r="4" fill="rgba(58,173,174,0.55)"/>
+                    <circle cx="755" cy="346" r="6" fill="rgba(58,173,174,0.4)"/>
+                    <circle cx="778" cy="324" r="8" fill="rgba(58,173,174,0.25)"/>
+                    <!-- White: figure(550,240) → bubble tip(550,118) -->
+                    <circle cx="550" cy="210" r="4" fill="rgba(255,255,255,0.45)"/>
+                    <circle cx="550" cy="179" r="5" fill="rgba(255,255,255,0.3)"/>
+                    <circle cx="550" cy="149" r="7" fill="rgba(255,255,255,0.18)"/>
+
+                    <!-- ====== THOUGHT BUBBLES (narrowed + shifted down 40px) ====== -->
+
+                    <!-- White (top center) — w230, centered at x=550 -->
+                    <path d="M451,46 H649 Q665,46 665,62 V82 Q665,98 649,98 H565 L550,118 L535,98 H451 Q435,98 435,82 V62 Q435,46 451,46 Z" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+                    <g transform="translate(463,72) scale(0.7)" stroke="rgba(255,255,255,0.7)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M0 -12 C-4 -8 -5 -2 -5 4 L5 4 C5 -2 4 -8 0 -12"/><path d="M-5 1 L-9 5 L-5 4 M5 1 L9 5 L5 4"/><path d="M-2 4 L-3 10 M0 4 L0 10 M2 4 L3 10"/></g>
+                    <text x="493" y="68" fill="white" font-size="14" font-weight="500" font-family="Poppins, sans-serif">მინიმალური რესურსით</text>
+                    <text x="493" y="88" fill="rgba(255,255,255,0.85)" font-size="14" font-weight="700" font-family="Poppins, sans-serif">მაქსიმალური შედეგი</text>
+
+                    <!-- Orange (left upper) — w200, left=20 -->
+                    <path d="M36,104 H204 Q220,104 220,120 V140 Q220,156 204,156 H195 L210,176 L165,156 H36 Q20,156 20,140 V120 Q20,104 36,104 Z" fill="rgba(240,83,36,0.1)" stroke="#F05324" stroke-width="1.5"/>
+                    <g transform="translate(50,130) scale(0.7)" stroke="#F05324" stroke-width="2" fill="none" stroke-linecap="round"><circle r="11"/><line x1="0" y1="0" x2="0" y2="-7"/><line x1="0" y1="0" x2="5" y2="3"/><path d="M8 -9 A13 13 0 1 0 3 -12" stroke-width="1.5"/><path d="M9 -12 L8 -8 L12 -9" stroke-width="1.5"/></g>
+                    <text x="80" y="126" fill="white" font-size="14" font-weight="500" font-family="Poppins, sans-serif">როგორ არ ვიყოთ</text>
+                    <text x="80" y="146" fill="#F05324" font-size="14" font-weight="700" font-family="Poppins, sans-serif">რუტინაში?</text>
+
+                    <!-- Green (right upper) — w210, right=970 -->
+                    <path d="M776,104 H954 Q970,104 970,120 V140 Q970,156 954,156 H850 L810,176 L830,156 H776 Q760,156 760,140 V120 Q760,104 776,104 Z" fill="rgba(4,153,120,0.1)" stroke="#049978" stroke-width="1.5"/>
+                    <g transform="translate(790,130) scale(0.7)" stroke="#049978" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M0 -11 C-7 -9 -8 -3 -8 1 L-10 4 L10 4 L8 1 C8 -3 7 -9 0 -11"/><line x1="0" y1="-11" x2="0" y2="-13"/><path d="M-3 4 C-3 8 3 8 3 4"/><circle cx="9" cy="-8" r="3" fill="#049978"/></g>
+                    <text x="820" y="126" fill="white" font-size="14" font-weight="500" font-family="Poppins, sans-serif">წვრილმანს მე არ</text>
+                    <text x="820" y="146" fill="#049978" font-size="14" font-weight="700" font-family="Poppins, sans-serif">მეკითხებოდნენ</text>
+
+                    <!-- Yellow (left lower) — w160, left=10 -->
+                    <path d="M26,230 H154 Q170,230 170,246 V266 Q170,282 154,282 H140 L160,302 L120,282 H26 Q10,282 10,266 V246 Q10,230 26,230 Z" fill="rgba(240,185,28,0.1)" stroke="#F0B91C" stroke-width="1.5"/>
+                    <g transform="translate(40,256) scale(0.7)" stroke="#F0B91C" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M0 -12 C-4 -6 -7 0 -6 5 C-5 9 -3 11 0 11 C3 11 5 9 6 5 C7 0 4 -6 0 -12"/><path d="M0 1 C-2 3 -2 7 0 9 C2 7 2 3 0 1"/></g>
+                    <text x="70" y="252" fill="white" font-size="14" font-weight="500" font-family="Poppins, sans-serif">ცეცხლს არ</text>
+                    <text x="70" y="272" fill="#F0B91C" font-size="14" font-weight="700" font-family="Poppins, sans-serif">ვაქრობდე</text>
+
+                    <!-- Teal (right lower) — w250, left=770 -->
+                    <path d="M786,230 H1004 Q1020,230 1020,246 V266 Q1020,282 1004,282 H860 L800,302 L830,282 H786 Q770,282 770,266 V246 Q770,230 786,230 Z" fill="rgba(58,173,174,0.15)" stroke="#3aadae" stroke-width="1.5"/>
+                    <g transform="translate(800,256) scale(0.7)" stroke="#3aadae" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="-10" y="-8" width="20" height="18" rx="3"/><line x1="-10" y1="-2" x2="10" y2="-2"/><line x1="-5" y1="-8" x2="-5" y2="-12"/><line x1="5" y1="-8" x2="5" y2="-12"/><line x1="-4" y1="2" x2="4" y2="8"/><line x1="4" y1="2" x2="-4" y2="8"/></g>
+                    <text x="830" y="252" fill="white" font-size="14" font-weight="500" font-family="Poppins, sans-serif">აღარ ვიყო</text>
+                    <text x="830" y="272" fill="#3aadae" font-size="14" font-weight="700" font-family="Poppins, sans-serif">ყოველდღიურად ჩართული</text>
+
+                </svg>
+                </div>
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+    <!-- SLIDE 3: მარტო არ ხარ -->
+    <div class="slide" id="slide3">
+
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner">
+            <div class="slide-header">
+                <div class="slide-title-area">
+                    <h1 data-pin="s3-title">მარტო <span class="highlight">არ ხარ</span></h1>
+                </div>
+                <div class="logo"><img src="gec-logo.png" alt="GEC"></div>
+            </div>
+            <div class="slide-content" style="flex-direction: column; gap: 20px;">
+                <!-- Visual: Three pillars representing the research/frameworks -->
+                <div data-pin="s3-chart" class="illustration-container" style="max-width: 100%;">
+                    <svg viewBox="0 -50 900 430" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                        <defs>
+                            <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#F05324"/>
+                                <stop offset="30%" stop-color="#F0B91C"/>
+                                <stop offset="60%" stop-color="#049978"/>
+                                <stop offset="100%" stop-color="#226263"/>
+                            </linearGradient>
+                        </defs>
+
+                        <!-- ===== STAIRCASE GROWTH — grow → crisis → overcome → grow higher ===== -->
+
+                        <!-- Subtle baseline -->
+                        <line x1="30" y1="280" x2="880" y2="280" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+
+                        <!-- Subtle horizontal level markers (showing each "stair") -->
+                        <line x1="155" y1="200" x2="220" y2="200" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="4 3"/>
+                        <line x1="385" y1="145" x2="450" y2="145" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="4 3"/>
+                        <line x1="625" y1="100" x2="690" y2="100" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="4 3"/>
+
+                        <!-- The staircase path — each step higher, dips at crises -->
+                        <path d="M40,270 C80,270 120,200 160,200 L210,200 C225,200 240,228 260,228 C280,228 340,145 390,145 L440,145 C455,145 470,170 490,170 C510,170 570,100 630,100 L680,100 C695,100 710,122 730,122 C750,122 790,75 840,70"
+                              stroke="url(#waveGrad)" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+
+                        <!-- Subtle fill under the staircase -->
+                        <path d="M40,270 C80,270 120,200 160,200 L210,200 C225,200 240,228 260,228 C280,228 340,145 390,145 L440,145 C455,145 470,170 490,170 C510,170 570,100 630,100 L680,100 C695,100 710,122 730,122 C750,122 790,75 840,70 L840,280 L40,280 Z"
+                              fill="url(#waveGrad)" opacity="0.04"/>
+
+                        <!-- Growth plateau dots (levels achieved) -->
+                        <circle cx="185" cy="200" r="4" fill="#F05324" opacity="0.6"/>
+                        <circle cx="415" cy="145" r="4" fill="#049978" opacity="0.6"/>
+                        <circle cx="655" cy="100" r="4" fill="#226263" opacity="0.6"/>
+
+                        <!-- Crisis dip dots -->
+                        <circle cx="260" cy="228" r="3.5" fill="rgba(255,255,255,0.25)"/>
+                        <circle cx="490" cy="170" r="3.5" fill="rgba(255,255,255,0.25)"/>
+                        <circle cx="730" cy="122" r="3.5" fill="rgba(255,255,255,0.25)"/>
+
+                        <!-- Continuation dots (growth continues...) -->
+                        <circle cx="855" cy="66" r="2.5" fill="#226263" opacity="0.4"/>
+                        <circle cx="866" cy="60" r="2" fill="#226263" opacity="0.3"/>
+                        <circle cx="876" cy="55" r="1.5" fill="#226263" opacity="0.2"/>
+
+                        <!-- Stage labels -->
+                        <text x="30" y="290" fill="rgba(255,255,255,0.7)" font-size="12" font-weight="600" font-family="Poppins, sans-serif">დაბადება</text>
+                        <text x="160" y="190" fill="#049978" font-size="11" font-weight="600" font-family="Poppins, sans-serif">ზრდა</text>
+                        <text x="245" y="248" fill="#F05324" font-size="11" font-weight="600" font-family="Poppins, sans-serif">კრიზისი</text>
+                        <text x="390" y="135" fill="#049978" font-size="11" font-weight="600" font-family="Poppins, sans-serif">ზრდა</text>
+                        <text x="475" y="190" fill="#F05324" font-size="11" font-weight="600" font-family="Poppins, sans-serif">კრიზისი</text>
+                        <text x="630" y="90" fill="#049978" font-size="11" font-weight="600" font-family="Poppins, sans-serif">ზრდა</text>
+                        <text x="715" y="142" fill="#F05324" font-size="11" font-weight="600" font-family="Poppins, sans-serif">კრიზისი</text>
+
+                        <!-- Upward arrows on growth sections -->
+                        <path d="M105,240 L112,230 L107,225" stroke="#F05324" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.35"/>
+                        <path d="M340,178 L347,168 L342,163" stroke="#049978" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.35"/>
+                        <path d="M580,128 L587,118 L582,113" stroke="#226263" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.35"/>
+
+                        <!-- ===== CONNECTING LINES from cards to staircase ===== -->
+                        <line x1="150" y1="32" x2="200" y2="200" stroke="#F05324" stroke-width="1" stroke-dasharray="3 4" opacity="0.25"/>
+                        <line x1="445" y1="32" x2="420" y2="145" stroke="#049978" stroke-width="1" stroke-dasharray="3 4" opacity="0.25"/>
+                        <line x1="750" y1="32" x2="680" y2="100" stroke="#226263" stroke-width="1" stroke-dasharray="3 4" opacity="0.25"/>
+
+                        <!-- Connection dots where lines meet the staircase -->
+                        <circle cx="200" cy="200" r="3" fill="#F05324" opacity="0.4"/>
+                        <circle cx="420" cy="145" r="3" fill="#049978" opacity="0.4"/>
+                        <circle cx="680" cy="100" r="3" fill="#226263" opacity="0.4"/>
+
+                        <!-- ===== 3 RESEARCH CARDS — grouped, shifted up ===== -->
+                        <g transform="translate(0,-50)">
+                            <!-- CARD 1: GREINER (orange) -->
+                            <rect x="10" y="8" width="280" height="72" rx="16" fill="rgba(240,83,36,0.1)" stroke="#F05324" stroke-width="1.5"/>
+                            <g transform="translate(44,44) scale(0.85)" stroke="#F05324" stroke-width="2.2" fill="none" stroke-linecap="round">
+                                <path d="M-10 8 C-5 6 -2 -2 0 -2 C2 -2 5 -10 10 -10"/>
+                                <circle cx="10" cy="-10" r="3" fill="#F05324"/>
+                                <circle cx="-10" cy="8" r="2" fill="#F05324" opacity="0.4"/>
+                            </g>
+                            <text x="74" y="36" fill="white" font-size="14" font-weight="600" font-family="Poppins, sans-serif">Larry Greiner, 1976</text>
+                            <text x="74" y="60" fill="#F05324" font-size="14" font-weight="700" font-family="Poppins, sans-serif">ევოლუცია — რევოლუცია</text>
+
+                            <!-- CARD 2: ADIZES (green) -->
+                            <rect x="310" y="8" width="270" height="72" rx="16" fill="rgba(4,153,120,0.1)" stroke="#049978" stroke-width="1.5"/>
+                            <g transform="translate(344,44) scale(0.85)" stroke="#049978" stroke-width="2.2" fill="none" stroke-linecap="round">
+                                <path d="M-10 8 C-6 -8 0 -12 0 -12 C0 -12 6 -8 10 8"/>
+                                <circle cx="0" cy="-12" r="3" fill="#049978"/>
+                            </g>
+                            <text x="374" y="36" fill="white" font-size="14" font-weight="600" font-family="Poppins, sans-serif">Ichak Adizes, 1988</text>
+                            <text x="374" y="60" fill="#049978" font-size="14" font-weight="700" font-family="Poppins, sans-serif">სასიცოცხლო ციკლი</text>
+
+                            <!-- CARD 3: LESTER & PHELPS (teal) -->
+                            <rect x="610" y="8" width="280" height="72" rx="16" fill="rgba(34,98,99,0.12)" stroke="#226263" stroke-width="1.5"/>
+                            <g transform="translate(644,44) scale(0.85)" stroke="#226263" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M-10 8 L-10 2 L-3 2 L-3 -3 L4 -3 L4 -9 L10 -9"/>
+                                <circle cx="10" cy="-9" r="3" fill="#226263"/>
+                            </g>
+                            <text x="674" y="36" fill="white" font-size="14" font-weight="600" font-family="Poppins, sans-serif">Lester & Phelps, 2000</text>
+                            <text x="674" y="60" fill="#226263" font-size="14" font-weight="700" font-family="Poppins, sans-serif">ზრდის ფაზები</text>
+                        </g>
+
+                        <!-- ===== BOTTOM MESSAGE BAR ===== -->
+                        <rect x="175" y="310" width="550" height="32" rx="16" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+                        <text x="450" y="331" text-anchor="middle" fill="white" font-size="13" font-family="Poppins, sans-serif">
+                            <tspan fill="#F0B91C">ინდუსტრია</tspan> · <tspan fill="#F05324">ქვეყანა</tspan> · <tspan fill="#049978">ზომა</tspan> — <tspan font-weight="600">არ აქვს მნიშვნელობა</tspan>
+                        </text>
+
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+    <!-- SLIDE 4: ახლანდელი გარემო -->
+    <div class="slide" id="slide4">
+
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner">
+            <div class="slide-header">
+                <div class="slide-title-area">
+                    <h1 data-pin="s4-title">ახლანდელი <span class="highlight">გარემო</span></h1>
+                </div>
+                <div class="logo"><img src="gec-logo.png" alt="GEC"></div>
+            </div>
+            <div class="slide-content" style="position: relative; flex: 1; min-height: 0;">
+
+                    <!-- Left: Word storm filling left side, balanced margins -->
+                    <div data-pin="s4-wordstorm" class="scramble-area">
+                        <span id="scramble-text"></span>
+                    </div>
+
+                    <!-- Center-right: Plus sign -->
+                    <div data-pin="s4-plus" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 140px; font-weight: 400; color: #049978; line-height: 1;">+</div>
+
+                    <!-- Right: Baymax + AI (closer to +) -->
+                    <div data-pin="s4-baymax" style="position: absolute; left: 75%; top: 40%; transform: translate(-50%, -50%) scale(1.9); display: flex; flex-direction: column; align-items: center;">
+                        <div class="baymax-container" style="width: 300px; height: 340px;">
+                            <div class="baymax-arm left" style="width: 48px; height: 96px; bottom: 56px;"></div>
+                            <div class="baymax-arm right" style="width: 48px; height: 96px; bottom: 56px;"></div>
+                            <div class="baymax-body" style="width: 200px; height: 180px; display: flex; align-items: center; justify-content: center;">
+                                <span style="font-size: 48px; font-weight: 700; color: var(--green); -webkit-text-fill-color: var(--green);">AI</span>
+                            </div>
+                            <div class="baymax-head" style="width: 140px; height: 100px; bottom: 162px;">
+                                <div class="baymax-eyes" style="top: 40px; gap: 22px;">
+                                    <div class="baymax-eye" style="width: 28px; height: 9px;"></div>
+                                    <div class="baymax-eye" style="width: 28px; height: 9px;"></div>
+                                </div>
+                                <div class="baymax-eye-connector" style="top: 45px; width: 22px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+    <!-- SLIDE 5: გადაწყვეტა — სიმდ -->
+    <div class="slide" id="slide5">
+
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner">
+            <div class="slide-header">
+                <div class="slide-title-area">
+                    <h1 data-pin="s5-title"><span class="green">გადაწყვეტა</span> — ზრდის ქორეოგრაფია</h1>
+                </div>
+                <div class="logo"><img src="gec-logo.png" alt="GEC"></div>
+            </div>
+            <div class="slide-content" style="justify-content: center;">
+                <div data-pin="s5-dance" class="illustration-container" style="max-width: 100%;">
+                    <svg id="simd-svg" viewBox="0 -59 1100 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                        <defs>
+                            <!-- ===== SIMD MAN — Chokha, Papakha, rigid posture ===== -->
+                            <g id="sm" fill="none" stroke="#F05324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <ellipse cx="0" cy="-84" rx="12" ry="7"/>
+                                <line x1="-12" y1="-84" x2="-12" y2="-77"/>
+                                <line x1="12" y1="-84" x2="12" y2="-77"/>
+                                <circle cx="0" cy="-67" r="10"/>
+                                <line x1="0" y1="-57" x2="0" y2="-48"/>
+                                <path d="M-13 -48 L-18 44 L18 44 L13 -48 Z"/>
+                                <line x1="-7" y1="-42" x2="-7" y2="-26" stroke-width="1.2"/>
+                                <line x1="-3" y1="-42" x2="-3" y2="-26" stroke-width="1.2"/>
+                                <line x1="3" y1="-42" x2="3" y2="-26" stroke-width="1.2"/>
+                                <line x1="7" y1="-42" x2="7" y2="-26" stroke-width="1.2"/>
+                                <line x1="-15.5" y1="-8" x2="15.5" y2="-8" stroke-width="1.8"/>
+                                <line x1="0" y1="-8" x2="0" y2="1" stroke-width="1.2"/>
+                                <path d="M-1.5 1 L0 6 L1.5 1"/>
+                                <path d="M-13 -40 C-28 -34 -42 -28 -55 -26"/>
+                                <path d="M13 -40 C28 -34 42 -28 55 -26"/>
+                                <line x1="-6" y1="44" x2="-6" y2="78" stroke-width="2.2"/>
+                                <line x1="6" y1="44" x2="6" y2="78" stroke-width="2.2"/>
+                                <path d="M-10 78 L-3 78" stroke-width="2.2"/>
+                                <path d="M3 78 L10 78" stroke-width="2.2"/>
+                            </g>
+
+                            <!-- ===== SIMD WOMAN — floor-length dress, long sleeves, swan glide ===== -->
+                            <g id="sw" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M-9 -63 Q-14 -80 0 -88 Q14 -80 9 -63"/>
+                                <path d="M-8 -60 Q-12 -36 -8 -12" opacity="0.4"/>
+                                <circle cx="0" cy="-65" r="10"/>
+                                <line x1="0" y1="-55" x2="0" y2="-46"/>
+                                <path d="M0 -46 Q-30 14 -36 82"/>
+                                <path d="M0 -46 Q30 14 36 82"/>
+                                <path d="M-36 82 Q0 86 36 82"/>
+                                <path d="M-2 -38 C-22 -30 -40 -26 -58 -26"/>
+                                <path d="M2 -38 C22 -30 40 -26 58 -26"/>
+                                <path d="M-58 -26 C-62 -20 -64 -14 -60 -6" opacity="0.3"/>
+                                <path d="M58 -26 C62 -20 64 -14 60 -6" opacity="0.3"/>
+                            </g>
+
+                            <!-- ===== SIMD ROBOT — geometric, pulsing chest ===== -->
+                            <g id="sr" fill="none" stroke="#049978" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="0" y1="-80" x2="0" y2="-88"/>
+                                <circle cx="0" cy="-91" r="3"/>
+                                <rect x="-10" y="-78" width="20" height="16" rx="3"/>
+                                <circle cx="-4" cy="-70" r="2" fill="#049978" opacity="0.5"/>
+                                <circle cx="4" cy="-70" r="2" fill="#049978" opacity="0.5"/>
+                                <line x1="0" y1="-62" x2="0" y2="-54"/>
+                                <rect x="-14" y="-54" width="28" height="50" rx="3"/>
+                                <circle cx="0" cy="-32" r="6" opacity="0.3"/>
+                                <circle cx="0" cy="-32" r="2" fill="#049978" opacity="0.5">
+                                    <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite"/>
+                                    <animate attributeName="r" values="2;4;2" dur="3s" repeatCount="indefinite"/>
+                                </circle>
+                                <path d="M-14 -44 C-28 -36 -42 -28 -55 -26"/>
+                                <path d="M14 -44 C28 -36 42 -28 55 -26"/>
+                                <circle cx="-55" cy="-26" r="4"/>
+                                <circle cx="55" cy="-26" r="4"/>
+                                <rect x="-10" y="-4" width="7" height="76" rx="2"/>
+                                <rect x="3" y="-4" width="7" height="76" rx="2"/>
+                                <rect x="-12" y="70" width="12" height="6" rx="2"/>
+                                <rect x="0" y="70" width="12" height="6" rx="2"/>
+                            </g>
+
+                            <!-- Warm glow gradient -->
+                            <radialGradient id="fGlow" cx="550" cy="70" r="420" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="rgba(240,185,28,0.06)"/>
+                                <stop offset="100%" stop-color="rgba(240,185,28,0)"/>
+                            </radialGradient>
+                        </defs>
+
+                        <!-- Ambient glow -->
+                        <ellipse cx="550" cy="70" rx="420" ry="140" fill="url(#fGlow)"/>
+
+                        <!-- Floor decoration — circle track -->
+                        <ellipse id="simd-floor-ellipse" cx="550" cy="70" rx="346" ry="83"
+                            fill="none" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+                        <ellipse cx="550" cy="70" rx="340" ry="80"
+                            fill="none" stroke="rgba(255,255,255,0.045)" stroke-width="1" stroke-dasharray="6 8"/>
+                        <ellipse cx="550" cy="70" rx="334" ry="77"
+                            fill="none" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+
+                        <!-- Floor decoration — line track (hidden, revealed in line mode) -->
+                        <line id="simd-floor-line" x1="60" y1="90" x2="1040" y2="90"
+                            stroke="rgba(255,255,255,0.1)" stroke-width="1" opacity="0"/>
+
+                        <!-- Sleeve / hand connections (updated by JS) -->
+                        <g id="simd-connections"></g>
+
+                        <!-- Dancer figures (managed by JS) -->
+                        <g id="simd-formation"></g>
+
+                        <!-- Labels -->
+                        <g id="simd-labels">
+                            <circle cx="240" cy="178" r="7" fill="#049978" opacity="0.6"/>
+                            <text x="256" y="188" fill="#049978" font-size="30" font-weight="500" font-family="Poppins, sans-serif">სისტემა</text>
+                            <text x="420" y="188" fill="rgba(255,255,255,0.25)" font-size="30" font-family="Poppins, sans-serif">&#183;</text>
+                            <circle cx="455" cy="178" r="7" fill="#F05324" opacity="0.6"/>
+                            <text x="471" y="188" fill="#F05324" font-size="30" font-weight="500" font-family="Poppins, sans-serif">ტექნოლოგიები</text>
+                            <text x="720" y="188" fill="rgba(255,255,255,0.25)" font-size="30" font-family="Poppins, sans-serif">&#183;</text>
+                            <circle cx="755" cy="178" r="7" fill="#ffffff" opacity="0.6"/>
+                            <text x="771" y="188" fill="#ffffff" font-size="30" font-weight="500" font-family="Poppins, sans-serif">ადამიანები</text>
+                        </g>
+
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+    <!-- SLIDE 6: Services -->
+    <div class="slide" id="slide6">
+
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner">
+            <div class="slide-header">
+                <div class="slide-title-area">
+                    <h1 data-pin="s6-title">ჩვენი <span class="highlight">სერვისები</span></h1>
+                </div>
+                <div class="logo"><img src="gec-logo.png" alt="GEC"></div>
+            </div>
+            <div class="slide-content" style="display: flex; align-items: center; justify-content: center; padding: 0 30px; margin-top: -40px;">
+                <div class="animated-group" style="display: flex; align-items: stretch; gap: 30px; justify-content: center;">
+
+                <!-- Strategy -->
+                <div data-pin="s6-strategy" style="flex: 1; max-width: 340px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #049978; border-radius: 16px; padding: 36px 34px; display: flex; flex-direction: column; gap: 18px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
+                    onmouseenter="this.style.background='rgba(4,153,120,0.08)';this.style.borderColor='rgba(4,153,120,0.3)';this.style.borderLeftColor='#049978';this.style.boxShadow='0 0 30px rgba(4,153,120,0.15)'"
+                    onmouseleave="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.borderLeftColor='#049978';this.style.boxShadow='none'">
+                    <div style="font-size: 30px; font-weight: 700; color: #049978; line-height: 1.2;">სტრატეგიული<br>დაგეგმვა</div>
+                    <div style="font-size: 17px; color: rgba(255,255,255,0.5); line-height: 1.7;">ბიზნეს სტრატეგიის შემუშავება და განხორციელება</div>
+                </div>
+
+                <!-- BPM -->
+                <div data-pin="s6-bpm" style="flex: 1; max-width: 340px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #F05324; border-radius: 16px; padding: 36px 34px; display: flex; flex-direction: column; gap: 18px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
+                    onmouseenter="this.style.background='rgba(240,83,36,0.08)';this.style.borderColor='rgba(240,83,36,0.3)';this.style.borderLeftColor='#F05324';this.style.boxShadow='0 0 30px rgba(240,83,36,0.15)'"
+                    onmouseleave="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.borderLeftColor='#F05324';this.style.boxShadow='none'">
+                    <div style="font-size: 30px; font-weight: 700; color: #F05324; line-height: 1.2;">ბიზნეს პროცესების<br>მართვა</div>
+                    <div style="font-size: 17px; color: rgba(255,255,255,0.5); line-height: 1.7;">BPM — პროცესების ოპტიმიზაცია და ავტომატიზაცია</div>
+                </div>
+
+                <!-- Digitalization -->
+                <div data-pin="s6-digital" style="flex: 1; max-width: 340px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #F0B91C; border-radius: 16px; padding: 36px 34px; display: flex; flex-direction: column; gap: 18px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
+                    onmouseenter="this.style.background='rgba(240,185,28,0.08)';this.style.borderColor='rgba(240,185,28,0.3)';this.style.borderLeftColor='#F0B91C';this.style.boxShadow='0 0 30px rgba(240,185,28,0.15)'"
+                    onmouseleave="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.borderLeftColor='#F0B91C';this.style.boxShadow='none'">
+                    <div style="font-size: 30px; font-weight: 700; color: #F0B91C; line-height: 1.2;">ციფრული<br>ტრანსფორმაცია</div>
+                    <div style="font-size: 17px; color: rgba(255,255,255,0.5); line-height: 1.7;">ბიზნესის მართვის ინოვაციური მიდგომა</div>
+                </div>
+
+                <!-- Export -->
+                <div data-pin="s6-export" style="flex: 1; max-width: 340px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #3aadae; border-radius: 16px; padding: 36px 34px; display: flex; flex-direction: column; gap: 18px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
+                    onmouseenter="this.style.background='rgba(58,173,174,0.08)';this.style.borderColor='rgba(58,173,174,0.3)';this.style.borderLeftColor='#3aadae';this.style.boxShadow='0 0 30px rgba(58,173,174,0.15)'"
+                    onmouseleave="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.borderLeftColor='#3aadae';this.style.boxShadow='none'">
+                    <div style="font-size: 30px; font-weight: 700; color: #3aadae; line-height: 1.2;">ექსპორტის<br>განვითარება</div>
+                    <div style="font-size: 17px; color: rgba(255,255,255,0.5); line-height: 1.7;">ექსპორტის დაგეგმვა და საერთაშორისო ბაზრებზე შესვლა</div>
+                </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+    <!-- SLIDE 7: Offer -->
+    <div class="slide" id="slide7">
+
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="grid-overlay"></div>
+        <div class="slide-inner">
+            <div class="slide-header">
+                <div class="slide-title-area">
+                    <h1 data-pin="s7-title">შეთავაზება — <span class="highlight">საქართველოს ბანკის</span> კლიენტებისთვის</h1>
+                </div>
+                <div class="logo"><img src="gec-logo.png" alt="GEC"></div>
+            </div>
+            <div class="slide-content" style="display: flex; align-items: center; justify-content: center; padding: 0 40px;">
+
+                <!-- Registration QR — centered -->
+                <div data-pin="s7-registration" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 20px; max-width: 500px;">
+                    <div style="background: linear-gradient(135deg, rgba(240,83,36,0.15), rgba(240,185,28,0.08)); border: 1px solid rgba(240,83,36,0.3); border-radius: 20px; padding: 8px 26px;">
+                        <span style="font-size: 22px; font-weight: 600; color: #F05324;">პირველ 15 მონაწილეს</span>
+                    </div>
+                    <div style="font-size: 24px; font-weight: 600; color: #fff; line-height: 1.3;">უფასო <span style="color: #F05324;">1-საათიანი</span> ვორქშოფი</div>
+                    <div style="font-size: 20px; font-weight: 500; color: rgba(255,255,255,0.7); line-height: 1.3;">თქვენი გუნდისთვის</div>
+
+                    <div style="background: rgba(240,83,36,0.06); border: 1px solid rgba(240,83,36,0.2); border-radius: 16px; padding: 22px;">
+                        <canvas id="qr-register" width="300" height="300" style="width: 300px; height: 300px; border-radius: 10px; display: block;"></canvas>
+                    </div>
+
+                    <div style="font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 4px;">დაასკანერეთ და დარეგისტრირდით</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="website">www.gecbusiness.com</div>
+    </div>
+
+
+
+    <!-- Navigation -->
+    <div class="nav">
+        <div class="nav-dot active" onclick="goToSlide(0)"></div>
+        <div class="nav-dot" onclick="goToSlide(1)"></div>
+        <div class="nav-dot" onclick="goToSlide(2)"></div>
+        <div class="nav-dot" onclick="goToSlide(3)"></div>
+        <div class="nav-dot" onclick="goToSlide(4)"></div>
+        <div class="nav-dot" onclick="goToSlide(5)"></div>
+        <div class="nav-dot" onclick="goToSlide(6)"></div>
+    </div>
+
+    <div class="controls">
+        <button class="control-btn" onclick="prevSlide()">&#8593;</button>
+        <button class="control-btn" onclick="nextSlide()">&#8595;</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 7;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.nav-dot');
+
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+
+            slides[n].classList.add('active');
+            dots[n].classList.add('active');
+
+            // Animated group on slide 6 (index 5)
+            var ag = document.querySelector('#slide6 .animated-group');
+            if (ag) {
+                var items = ag.querySelectorAll(':scope > div');
+                if (n === 5) {
+                    // Reset then trigger
+                    items.forEach(function(el) { el.classList.remove('anim-visible'); });
+                    setTimeout(function() {
+                        items.forEach(function(el) { el.classList.add('anim-visible'); });
+                    }, 50);
+                } else {
+                    items.forEach(function(el) { el.classList.remove('anim-visible'); });
+                }
+            }
+
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // Touch/swipe navigation
+        let touchStartY = 0;
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+            touchStartX = e.touches[0].clientX;
+        });
+        document.addEventListener('touchend', (e) => {
+            const touchEndY = e.changedTouches[0].clientY;
+            const touchEndX = e.changedTouches[0].clientX;
+            const diffY = touchStartY - touchEndY;
+            const diffX = touchStartX - touchEndX;
+
+            if (Math.abs(diffY) > Math.abs(diffX)) {
+                if (diffY > 50) nextSlide();
+                if (diffY < -50) prevSlide();
+            } else {
+                if (diffX > 50) nextSlide();
+                if (diffX < -50) prevSlide();
+            }
+        });
+    </script>
+
+    <script>
+    /* CROWD LEG WALK — splits legs from each figure and swings them at the hip */
+    (function() {
+        var NS = "http://www.w3.org/2000/svg";
+        document.querySelectorAll('#slide2-crowd .cwalk > g').forEach(function(g, i) {
+            var paths = g.querySelectorAll('path');
+            var last = paths[paths.length - 1];
+            if (!last) return;
+            var d = last.getAttribute('d');
+
+            /* Leg pattern: M{hx} 48 L{fx} 78 M{hx} 48 L{fx} 78 */
+            var m = d.match(/M\s*(-?\d+)\s+48\s+L\s*(-?\d+)\s+78\s+M\s*(-?\d+)\s+48\s+L\s*(-?\d+)\s+78/);
+            if (!m) return;
+
+            /* Remove legs from combined path, keep arms */
+            last.setAttribute('d',
+                d.replace(/\s*M\s*-?\d+\s+48\s+L\s*-?\d+\s+78\s+M\s*-?\d+\s+48\s+L\s*-?\d+\s+78/, ''));
+
+            var dur = (0.55 + (i % 7) * 0.07).toFixed(2);
+            var swing = 10 + (i % 4) * 2;           /* degrees */
+
+            /* helper: create one animated leg */
+            function makeLeg(hx, fx, phase) {
+                var ln = document.createElementNS(NS, 'line');
+                ln.setAttribute('x1', hx);
+                ln.setAttribute('y1', '48');
+                ln.setAttribute('x2', fx);
+                ln.setAttribute('y2', '78');
+                var anim = document.createElementNS(NS, 'animateTransform');
+                anim.setAttribute('attributeName', 'transform');
+                anim.setAttribute('type', 'rotate');
+                anim.setAttribute('values',
+                    (phase ? -swing : swing) + ' ' + hx + ' 48; ' +
+                    (phase ? swing : -swing) + ' ' + hx + ' 48; ' +
+                    (phase ? -swing : swing) + ' ' + hx + ' 48');
+                anim.setAttribute('dur', dur + 's');
+                anim.setAttribute('repeatCount', 'indefinite');
+                ln.appendChild(anim);
+                g.appendChild(ln);
+            }
+
+            makeLeg(m[1], m[2], false);   /* left leg  */
+            makeLeg(m[3], m[4], true);    /* right leg (opposite phase) */
+        });
+    })();
+    </script>
+
+    <script>
+    /* SIMD-DANCE */
+    (function() {
+        "use strict";
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var svg = document.getElementById("simd-svg");
+            if (!svg) return;
+
+            var NS = "http://www.w3.org/2000/svg";
+            var formation = document.getElementById("simd-formation");
+            var conGroup  = document.getElementById("simd-connections");
+            var floorEll  = document.getElementById("simd-floor-ellipse");
+            var floorLine = document.getElementById("simd-floor-line");
+
+            /* ── CONFIG ─────────────────────────────────── */
+            var CX = 550, CY = 70;           // ellipse centre (feet level)
+            var RX = 340, RY = 80;            // ellipse radii
+            var N  = 24;                      // figures (8 x M-R-W)
+            var TYPES = ["man","robot","woman"];
+            var REFS  = { man:"#sm", robot:"#sr", woman:"#sw" };
+            var FOOT  = { man:78, woman:82, robot:76 };
+
+            var ROT_T    = 26000;   // circle rotation period (ms) — 2x speed
+            var TSER_T   = 2400;    // tser wave period
+            var GLIDE_T  = 3200;    // woman glide period
+            var TRANS_T  = 19000;   // circle ↔ line transformation cycle
+            var TSER_H   = 14;      // tser rise (local px)
+            var GLIDE_A  = 5;       // glide amplitude (local px)
+            var BREATHE  = 0.025;   // circle breathing amount
+
+            /* ── LINE-MODE POSITIONS ────────────────────── */
+            var LINE_Y     = 90;
+            var LINE_SCALE = 0.58;
+            var LINE_LEFT  = 80;
+            var LINE_RIGHT = 1020;
+
+            /* ── CREATE FIGURES ──────────────────────────── */
+            var figs = [];
+            for (var i = 0; i < N; i++) {
+                var t = TYPES[i % 3];
+                var g = document.createElementNS(NS, "g");
+                var u = document.createElementNS(NS, "use");
+                u.setAttribute("href", REFS[t]);
+                g.appendChild(u);
+                formation.appendChild(g);
+                figs.push({
+                    el: g, type: t, idx: i,
+                    baseA: (i * 2 * Math.PI) / N,
+                    footY: FOOT[t],
+                    fx:0, fy:0, fs:0, fd:0, fo:0, armY:0
+                });
+            }
+
+            /* ── CREATE CONNECTIONS ─────────────────────── */
+            var cons = [];
+            for (var i = 0; i < N; i++) {
+                var p = document.createElementNS(NS, "path");
+                p.setAttribute("fill", "none");
+                p.setAttribute("stroke-linecap", "round");
+                conGroup.appendChild(p);
+                cons.push(p);
+            }
+
+            /* ── HELPERS ────────────────────────────────── */
+            function ease(t) { return 0.5 * (1 - Math.cos(Math.PI * t)); }
+            function lerp(a, b, t) { return a + (b - a) * t; }
+
+            /* ── ANIMATION LOOP ─────────────────────────── */
+            var t0 = null;
+
+            function tick(now) {
+                if (t0 === null) t0 = now;
+                var ms = now - t0;
+
+                /* — transformation blend (0 = circle, 1 = line) — */
+                var tp = (ms % TRANS_T) / TRANS_T;
+                var blend = 0;
+                //  0.00–0.62  circle
+                //  0.62–0.70  circle → line
+                //  0.70–0.82  line
+                //  0.82–0.90  line → circle
+                //  0.90–1.00  circle
+                if      (tp >= 0.62 && tp < 0.70) blend = ease((tp - 0.62) / 0.08);
+                else if (tp >= 0.70 && tp < 0.82) blend = 1;
+                else if (tp >= 0.82 && tp < 0.90) blend = 1 - ease((tp - 0.82) / 0.08);
+
+                /* — circle breathing — */
+                var br = 1 + BREATHE * Math.sin(ms / 3500 * 2 * Math.PI);
+                var rX = RX * br, rY = RY * br;
+
+                /* — rotation angle — */
+                var baseA = (ms / ROT_T) * 2 * Math.PI;
+
+                /* — line-mode group sway — */
+                var lineSway = blend * 4 * Math.sin(ms / 1200 * Math.PI);
+
+                /* — update each figure — */
+                for (var i = 0; i < N; i++) {
+                    var f = figs[i];
+                    var a = baseA + f.baseA;
+
+                    // circle position
+                    var cEY = CY + rY * Math.sin(a);
+                    var cD  = (Math.sin(a) + 1) / 2;       // depth 0–1
+                    var cS  = 0.30 + 0.40 * cD;
+                    var cX  = CX + rX * Math.cos(a);
+                    var cY  = cEY - f.footY * cS;
+                    var cO  = 0.12 + 0.88 * cD;
+
+                    // line position
+                    var lX = LINE_LEFT + (i / (N - 1)) * (LINE_RIGHT - LINE_LEFT) + lineSway;
+                    var lS = LINE_SCALE;
+                    var lY = LINE_Y - f.footY * lS;
+
+                    // blend
+                    var x  = lerp(cX, lX, blend);
+                    var y  = lerp(cY, lY, blend);
+                    var s  = lerp(cS, lS, blend);
+                    var d  = lerp(cD, 0.5, blend);
+                    var o  = lerp(cO, 1.0, blend);
+
+                    // ── individual dance movement ──
+                    var dx = 0, dy = 0;
+                    var wave = i / N;   // wave offset
+
+                    if (f.type === "man" || f.type === "robot") {
+                        // TSER — dignified toe-rise, wave propagation
+                        var ph = ((ms / TSER_T + wave) % 1);
+                        var amt = 0;
+                        if      (ph < 0.14)               amt = ease(ph / 0.14);
+                        else if (ph < 0.42)               amt = 1;
+                        else if (ph < 0.56)               amt = 1 - ease((ph - 0.42) / 0.14);
+                        dy = -TSER_H * amt * s;
+                    } else {
+                        // WOMAN GLIDE — pure horizontal, zero bobbing
+                        var ph = ((ms / GLIDE_T + wave) % 1);
+                        dx = GLIDE_A * Math.sin(ph * 2 * Math.PI) * s;
+                    }
+
+                    f.fx = x + dx;
+                    f.fy = y + dy;
+                    f.fs = s;
+                    f.fd = d;
+                    f.fo = o;
+                    f.armY = (y + dy) + (-26) * s;
+
+                    f.el.setAttribute("transform",
+                        "translate(" + f.fx.toFixed(1) + "," + f.fy.toFixed(1) +
+                        ") scale(" + f.fs.toFixed(4) + ")");
+                    f.el.style.opacity = f.fo.toFixed(2);
+                }
+
+                /* — z-sort — */
+                figs.slice().sort(function(a, b) {
+                    return a.fd !== b.fd ? a.fd - b.fd : a.idx - b.idx;
+                }).forEach(function(f) { formation.appendChild(f.el); });
+
+                /* — connections — */
+                for (var i = 0; i < N; i++) {
+                    var a = figs[i], b = figs[(i + 1) % N];
+                    var dist = Math.hypot(a.fx - b.fx, a.fy - b.fy);
+                    var fade = dist < 220 ? 1 : Math.max(0, 1 - (dist - 220) / 80);
+
+                    var mx = (a.fx + b.fx) / 2;
+                    var my = (a.armY + b.armY) / 2 - 6 * (a.fs + b.fs) / 2;
+                    var op = ((a.fo + b.fo) / 2) * 0.30 * fade;
+
+                    // colour: golden for sleeve, green tint near robot
+                    var isRobot = (a.type === "robot" || b.type === "robot");
+                    var col = isRobot
+                        ? "rgba(4,153,120," + (op * 0.9).toFixed(2) + ")"
+                        : "rgba(240,185,28," + op.toFixed(2) + ")";
+
+                    cons[i].setAttribute("d",
+                        "M" + a.fx.toFixed(1) + "," + a.armY.toFixed(1) +
+                        " Q" + mx.toFixed(1) + "," + my.toFixed(1) +
+                        " "  + b.fx.toFixed(1) + "," + b.armY.toFixed(1));
+                    cons[i].setAttribute("stroke", col);
+                    cons[i].setAttribute("stroke-width", (1.5 * ((a.fs + b.fs) / 2 / 0.5)).toFixed(1));
+                }
+
+                /* — floor decorations — */
+                if (floorEll)  floorEll.style.opacity  = (1 - blend).toFixed(2);
+                if (floorLine) floorLine.style.opacity  = (blend * 0.6).toFixed(2);
+
+                requestAnimationFrame(tick);
+            }
+
+            requestAnimationFrame(tick);
+        });
+    })();
+    </script>
+
+    <script>
+    /* TEXT FADE PER CHAR — slide 3 */
+    (function() {
+        "use strict";
+        var words = [
+            "არასტაბილური", "გაურკვეველი", "კომპლექსური", "ორაზროვანი",
+            "მყიფე", "გაუგებარი", "ქაოტური", "ცვალებადი",
+            "სარისკო", "სტრესული", "კონკურენტული", "ტურბულენტური",
+            "გამომწვევი", "სწრაფი", "ბუნდოვანი"
+        ];
+        var colors = ["color-orange", "color-green", "color-yellow", "color-teal"];
+        var el = document.getElementById("scramble-text");
+        if (!el) return;
+        var idx = 0;
+
+        function buildChars(word) {
+            el.innerHTML = "";
+            el.className = colors[idx % colors.length];
+            var spans = [];
+            for (var i = 0; i < word.length; i++) {
+                var s = document.createElement("span");
+                s.className = "fade-char";
+                s.textContent = word[i];
+                el.appendChild(s);
+                spans.push(s);
+            }
+            return spans;
+        }
+
+        function fadeIn(spans, cb) {
+            var delay = 50;
+            spans.forEach(function(s, i) {
+                setTimeout(function() { s.classList.add("visible"); }, i * delay);
+            });
+            setTimeout(cb, spans.length * delay + 400);
+        }
+
+        function fadeOut(spans, cb) {
+            var delay = 30;
+            spans.forEach(function(s, i) {
+                setTimeout(function() {
+                    s.classList.remove("visible");
+                    s.classList.add("fading-out");
+                }, i * delay);
+            });
+            setTimeout(cb, spans.length * delay + 400);
+        }
+
+        function cycle() {
+            var spans = buildChars(words[idx]);
+            fadeIn(spans, function() {
+                setTimeout(function() {
+                    fadeOut(spans, function() {
+                        idx = (idx + 1) % words.length;
+                        cycle();
+                    });
+                }, 1500);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", cycle);
+    })();
+    </script>
+
+
+<!-- ===== CUSTOM BRANDED QR CODES ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script>
+    (function(){
+        var BG = '#0d2233';
+
+        function drawBrandedQR(canvasId, url, dotColor, gradStart, gradEnd, eyeColor) {
+            var canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            var ctx = canvas.getContext('2d');
+            var size = 280;
+            canvas.width = size * 2;   // hi-dpi
+            canvas.height = size * 2;
+            canvas.style.width = size + 'px';
+            canvas.style.height = size + 'px';
+            ctx.scale(2, 2);
+
+            // Generate QR matrix
+            var qr = qrcode(0, 'M');
+            qr.addData(url);
+            qr.make();
+            var moduleCount = qr.getModuleCount();
+
+            // Layout
+            var margin = 16;
+            var usable = size - margin * 2;
+            var cellSize = usable / moduleCount;
+
+            // Background
+            ctx.fillStyle = BG;
+            ctx.fillRect(0, 0, size, size);
+
+            // Gradient for dots
+            var grad = ctx.createLinearGradient(margin, margin, size - margin, size - margin);
+            grad.addColorStop(0, gradStart);
+            grad.addColorStop(1, gradEnd);
+
+            // Helper: check if cell is part of a finder pattern (eye)
+            function isFinderZone(r, c) {
+                // Top-left, top-right, bottom-left 7x7 finder patterns
+                if (r < 7 && c < 7) return true;
+                if (r < 7 && c >= moduleCount - 7) return true;
+                if (r >= moduleCount - 7 && c < 7) return true;
+                return false;
+            }
+
+            // Draw data dots (rounded)
+            var dotRadius = cellSize * 0.38;
+            for (var r = 0; r < moduleCount; r++) {
+                for (var c = 0; c < moduleCount; c++) {
+                    if (isFinderZone(r, c)) continue;
+                    if (qr.isDark(r, c)) {
+                        var cx = margin + c * cellSize + cellSize / 2;
+                        var cy = margin + r * cellSize + cellSize / 2;
+                        ctx.fillStyle = grad;
+                        ctx.beginPath();
+                        ctx.arc(cx, cy, dotRadius, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+            }
+
+            // Draw custom finder patterns (eyes) with rounded rectangles
+            function roundRect(x, y, w, h, radius) {
+                ctx.beginPath();
+                ctx.moveTo(x + radius, y);
+                ctx.lineTo(x + w - radius, y);
+                ctx.quadraticCurveTo(x + w, y, x + w, y + radius);
+                ctx.lineTo(x + w, y + h - radius);
+                ctx.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+                ctx.lineTo(x + radius, y + h);
+                ctx.quadraticCurveTo(x, y + h, x, y + h - radius);
+                ctx.lineTo(x, y + radius);
+                ctx.quadraticCurveTo(x, y, x + radius, y);
+                ctx.closePath();
+            }
+
+            function drawEye(startR, startC) {
+                var x = margin + startC * cellSize;
+                var y = margin + startR * cellSize;
+                var outer = cellSize * 7;
+                var mid = cellSize * 5;
+                var inner = cellSize * 3;
+                var cornerOuter = cellSize * 1.5;
+                var cornerMid = cellSize * 1.2;
+                var cornerInner = cellSize * 0.8;
+
+                // Outer ring
+                ctx.fillStyle = eyeColor;
+                roundRect(x, y, outer, outer, cornerOuter);
+                ctx.fill();
+
+                // Cut out middle (background)
+                ctx.fillStyle = BG;
+                roundRect(x + cellSize, y + cellSize, mid, mid, cornerMid);
+                ctx.fill();
+
+                // Inner square
+                ctx.fillStyle = eyeColor;
+                roundRect(x + cellSize * 2, y + cellSize * 2, inner, inner, cornerInner);
+                ctx.fill();
+            }
+
+            drawEye(0, 0);                          // top-left
+            drawEye(0, moduleCount - 7);             // top-right
+            drawEye(moduleCount - 7, 0);             // bottom-left
+
+            // Draw GEC logo in center
+            var logoSize = size * 0.22;
+            var logoX = (size - logoSize) / 2;
+            var logoY = (size - logoSize) / 2;
+
+            // White circle background for logo
+            var logoRadius = logoSize * 0.58;
+            ctx.fillStyle = BG;
+            ctx.beginPath();
+            ctx.arc(size / 2, size / 2, logoRadius + 4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = eyeColor;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(size / 2, size / 2, logoRadius + 4, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Load and draw logo
+            var img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = function() {
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(size / 2, size / 2, logoRadius, 0, Math.PI * 2);
+                ctx.clip();
+                ctx.drawImage(img, logoX, logoY, logoSize, logoSize);
+                ctx.restore();
+            };
+            img.src = 'gec-logo.png';
+        }
+
+        // Registration QR — orange themed
+        drawBrandedQR(
+            'qr-register',
+            'https://gec-presentation-v5.netlify.app/register.html',
+            '#ff8a65',
+            '#F05324',
+            '#F0B91C',
+            '#F05324'
+        );
+
+    })();
+    </script>
+
+
+</body>
+</html>
