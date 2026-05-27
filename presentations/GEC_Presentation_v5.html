@@ -1095,10 +1095,10 @@
                 <div class="logo"><img src="gec-logo.png" alt="GEC"></div>
             </div>
             <div class="slide-content" style="display: flex; align-items: center; justify-content: center; padding: 0 20px; margin-top: -30px;">
-                <div class="animated-group" style="display: flex; flex-wrap: wrap; align-items: stretch; gap: 18px; justify-content: center;">
+                <div class="animated-group" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; width: 100%; max-width: 1100px;">
 
                 <!-- Strategy -->
-                <div data-pin="s6-strategy" style="flex: 0 0 calc(33% - 18px); min-width: 220px; max-width: 300px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #049978; border-radius: 16px; padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
+                <div data-pin="s6-strategy" style=" background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #049978; border-radius: 16px; padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
                     onmouseenter="this.style.background='rgba(4,153,120,0.08)';this.style.borderColor='rgba(4,153,120,0.3)';this.style.borderLeftColor='#049978';this.style.boxShadow='0 0 30px rgba(4,153,120,0.15)'"
                     onmouseleave="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.borderLeftColor='#049978';this.style.boxShadow='none'">
                     <div style="font-size: 22px; font-weight: 700; color: #049978; line-height: 1.2;">სტრატეგიული<br>დაგეგმვა</div>
@@ -1106,7 +1106,7 @@
                 </div>
 
                 <!-- BPM -->
-                <div data-pin="s6-bpm" style="flex: 0 0 calc(33% - 18px); min-width: 220px; max-width: 300px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #F05324; border-radius: 16px; padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
+                <div data-pin="s6-bpm" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #F05324; border-radius: 16px; padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
                     onmouseenter="this.style.background='rgba(240,83,36,0.08)';this.style.borderColor='rgba(240,83,36,0.3)';this.style.borderLeftColor='#F05324';this.style.boxShadow='0 0 30px rgba(240,83,36,0.15)'"
                     onmouseleave="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.borderLeftColor='#F05324';this.style.boxShadow='none'">
                     <div style="font-size: 22px; font-weight: 700; color: #F05324; line-height: 1.2;">ბიზნეს პროცესების<br>მართვა</div>
@@ -1114,7 +1114,7 @@
                 </div>
 
                 <!-- Digitalization -->
-                <div data-pin="s6-digital" style="flex: 0 0 calc(33% - 18px); min-width: 220px; max-width: 300px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #F0B91C; border-radius: 16px; padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
+                <div data-pin="s6-digital" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #F0B91C; border-radius: 16px; padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
                     onmouseenter="this.style.background='rgba(240,185,28,0.08)';this.style.borderColor='rgba(240,185,28,0.3)';this.style.borderLeftColor='#F0B91C';this.style.boxShadow='0 0 30px rgba(240,185,28,0.15)'"
                     onmouseleave="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.borderLeftColor='#F0B91C';this.style.boxShadow='none'">
                     <div style="font-size: 22px; font-weight: 700; color: #F0B91C; line-height: 1.2;">ციფრული<br>ტრანსფორმაცია</div>
@@ -1122,7 +1122,7 @@
                 </div>
 
                 <!-- Export -->
-                <div data-pin="s6-export" style="flex: 0 0 calc(33% - 18px); min-width: 220px; max-width: 300px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #3aadae; border-radius: 16px; padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
+                <div data-pin="s6-export" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #3aadae; border-radius: 16px; padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
                     onmouseenter="this.style.background='rgba(58,173,174,0.08)';this.style.borderColor='rgba(58,173,174,0.3)';this.style.borderLeftColor='#3aadae';this.style.boxShadow='0 0 30px rgba(58,173,174,0.15)'"
                     onmouseleave="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.borderLeftColor='#3aadae';this.style.boxShadow='none'">
                     <div style="font-size: 22px; font-weight: 700; color: #3aadae; line-height: 1.2;">ექსპორტის<br>განვითარება</div>
@@ -1130,7 +1130,7 @@
                 </div>
 
                 <!-- AI in Processes -->
-                <div data-pin="s6-ai" style="flex: 0 0 calc(33% - 18px); min-width: 220px; max-width: 300px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #3a7ca5; border-radius: 16px; padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
+                <div data-pin="s6-ai" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #3a7ca5; border-radius: 16px; padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
                     onmouseenter="this.style.background='rgba(58,124,165,0.08)';this.style.borderColor='rgba(58,124,165,0.3)';this.style.borderLeftColor='#3a7ca5';this.style.boxShadow='0 0 30px rgba(58,124,165,0.15)'"
                     onmouseleave="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.borderLeftColor='#3a7ca5';this.style.boxShadow='none'">
                     <div style="font-size: 22px; font-weight: 700; color: #3a7ca5; line-height: 1.2;">AI პროცესებში</div>
@@ -1138,7 +1138,7 @@
                 </div>
 
                 <!-- SME Program -->
-                <div data-pin="s6-sme" style="flex: 0 0 calc(33% - 18px); min-width: 220px; max-width: 300px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #F05324; border-radius: 16px; padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
+                <div data-pin="s6-sme" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #F05324; border-radius: 16px; padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; transition: all 0.4s; cursor: default; position: relative; overflow: hidden;"
                     onmouseenter="this.style.background='rgba(240,83,36,0.08)';this.style.borderColor='rgba(240,83,36,0.3)';this.style.borderLeftColor='#F05324';this.style.boxShadow='0 0 30px rgba(240,83,36,0.15)'"
                     onmouseleave="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.borderLeftColor='#F05324';this.style.boxShadow='none'">
                     <div style="font-size: 22px; font-weight: 700; color: #F05324; line-height: 1.2;">SME პროგრამა</div>
